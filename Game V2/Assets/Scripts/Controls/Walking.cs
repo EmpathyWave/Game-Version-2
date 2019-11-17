@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -73,6 +74,14 @@ public class Walking : MonoBehaviour
         if(Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A))
         {
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            global.GetComponent<Global>().gameState = 3;
         }
     }
 }

@@ -10,7 +10,8 @@ public class MapController : MonoBehaviour
     public InputField inputf1;
     private string text1 = "";
     
-    public Image icon1;
+    public Image bw_icon;
+    public Image c_icon;
 
     public GameObject global;
     
@@ -23,10 +24,6 @@ public class MapController : MonoBehaviour
     
     void Update()
     {
-        if (inputf1.isActiveAndEnabled)
-        {
-            Debug.Log("active");
-        }
         if (global.GetComponent<Global>().gameState == 1)
         {
             MapActivate();
@@ -36,6 +33,10 @@ public class MapController : MonoBehaviour
         {
             MapActivate();
             EControls();
+        }
+        else if (global.GetComponent<Global>().gameState == 3)
+        {
+            MapActivate();
         }
         else
         {
@@ -47,6 +48,7 @@ public class MapController : MonoBehaviour
     void MapActivate()
     {
         map.enabled = true;
+        NameCheck();
         inputf1.image.enabled = true;
         inputf1.placeholder.enabled = true;
         inputf1.textComponent.enabled = true;
@@ -55,6 +57,8 @@ public class MapController : MonoBehaviour
     void MapDeactivate()
     {
         map.enabled = false;
+        bw_icon.enabled = false;
+        c_icon.enabled = false; 
         inputf1.image.enabled = false;
         inputf1.placeholder.enabled = false;
         inputf1.textComponent.enabled = false;
@@ -64,16 +68,11 @@ public class MapController : MonoBehaviour
     void VControls()
     {
         //checks if they are false and if they aren't then it activates game state 2
-        if (Input.GetKeyUp(KeyCode.M)) // changes into editing
+        if (Input.GetKeyUp(KeyCode.N)) // changes into viewing
         {
             global.GetComponent<Global>().gameState = 0;
         }
-
-        if (inputf1.isActiveAndEnabled) //switch to map
-        {
-            //deactivates panel 
-            global.GetComponent<Global>().gameState = 2; //map
-        }
+        
     }
 
     void EControls()
@@ -99,10 +98,30 @@ public class MapController : MonoBehaviour
     
     public void Save() // saving the text once the input field is called
     {
-        if (editing == true)
-        {
-            text1 = inputf1.text;
+        text1 = inputf1.text;
+    }
 
+    public void E_Editing() //ending editing - switching to view mode
+    {
+        global.GetComponent<Global>().gameState = 1;
+    }
+
+    public void St_Editing()
+    {
+        global.GetComponent<Global>().gameState = 2;
+    }
+
+    void NameCheck()
+    {
+        if (text1 == "Sleepy Dave")
+        {
+            bw_icon.enabled = false;
+            c_icon.enabled = true;
+        }
+        else
+        {
+            bw_icon.enabled = true;
+            c_icon.enabled = false; 
         }
     }
 }

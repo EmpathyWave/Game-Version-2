@@ -37,14 +37,16 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Managers/MapController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Controls/Editing.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Global.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Info.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Controls/Walking.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Assets/Scripts/Global.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/MapController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Controls/Walking.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/MapController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Info.cs" />
       </list>
     </option>
   </component>
@@ -95,6 +97,9 @@
       <option name="presentableId" value="Default" />
       <updated>1573500966344</updated>
       <workItem from="1573500968122" duration="4479000" />
+      <workItem from="1573530672608" duration="1202000" />
+      <workItem from="1573669969877" duration="7686000" />
+      <workItem from="1573974783858" duration="1765000" />
     </task>
     <servers />
   </component>
@@ -108,7 +113,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>

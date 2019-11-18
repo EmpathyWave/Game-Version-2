@@ -45,8 +45,8 @@
       <list>
         <option value="$PROJECT_DIR$/Assets/Scripts/Global.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Controls/Walking.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/MapController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Info.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/MapController.cs" />
       </list>
     </option>
   </component>
@@ -100,6 +100,7 @@
       <workItem from="1573530672608" duration="1202000" />
       <workItem from="1573669969877" duration="7686000" />
       <workItem from="1573974783858" duration="1765000" />
+      <workItem from="1574043283076" duration="7009000" />
     </task>
     <servers />
   </component>

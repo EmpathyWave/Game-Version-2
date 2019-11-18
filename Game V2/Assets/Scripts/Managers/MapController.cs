@@ -6,6 +6,14 @@ using UnityEngine.UI;
 public class MapController : MonoBehaviour
 {
     public Image map;
+
+    public GameObject sleepyDave;
+    public Image button;
+    
+    public GameObject q_box;
+    public GameObject d_box;
+
+    public bool asked = false;
     
     public InputField inputf1;
     private string text1 = "";
@@ -13,6 +21,9 @@ public class MapController : MonoBehaviour
     public Image bw_icon;
     public Image c_icon;
 
+    public Text question;
+    public Text answer; 
+    
     public GameObject global;
     
     private bool editing = false;
@@ -37,6 +48,7 @@ public class MapController : MonoBehaviour
         else if (global.GetComponent<Global>().gameState == 3)
         {
             MapActivate();
+            QControls();
         }
         else
         {
@@ -47,21 +59,18 @@ public class MapController : MonoBehaviour
 
     void MapActivate()
     {
-        map.enabled = true;
+        sleepyDave.SetActive(true);
         NameCheck();
-        inputf1.image.enabled = true;
-        inputf1.placeholder.enabled = true;
-        inputf1.textComponent.enabled = true;
+        map.enabled = true;
+        
     }
 
     void MapDeactivate()
     {
+        sleepyDave.SetActive(false);
         map.enabled = false;
-        bw_icon.enabled = false;
-        c_icon.enabled = false; 
-        inputf1.image.enabled = false;
-        inputf1.placeholder.enabled = false;
-        inputf1.textComponent.enabled = false;
+        d_box.SetActive(false);
+        q_box.SetActive(false);
     }
 
 
@@ -70,7 +79,7 @@ public class MapController : MonoBehaviour
         //checks if they are false and if they aren't then it activates game state 2
         if (Input.GetKeyUp(KeyCode.N)) // changes into viewing
         {
-            global.GetComponent<Global>().gameState = 0;
+            global.GetComponent<Global>().gameState = 0; //walkin time
         }
         
     }
@@ -79,10 +88,39 @@ public class MapController : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            global.GetComponent<Global>().gameState = 1; //back to notes
+            global.GetComponent<Global>().gameState = 1; //back to map
         }
 
         //put in editing the input fields here
+    }
+
+    void QControls()
+    {
+        q_box.SetActive(true);
+        d_box.SetActive(true);
+        NameCheck();
+        if (q_box.GetComponentInChildren<Text>().text == "Sleepy Dave" && asked == true)
+        {
+            d_box.GetComponentInChildren<Text>().text =
+                "I know Sleepy Dave, he was more of a father to me than my own Dad was. It's a shame what's happening to his bar, I offered him a job at my store but he wouldn't take it.";
+            asked = false;
+        }
+
+        if (Input.GetKeyUp(KeyCode.Q))
+        {
+            global.GetComponent<Global>().gameState = 0;//back to walking
+            d_box.GetComponentInChildren<Text>().text = "Ciao! My name is Giovanni!";
+        }    
+    }
+
+    public void Ask()
+    {
+        asked = true;
+    }
+
+    public void AddName()
+    {
+        q_box.GetComponentInChildren<Text>().text = "Sleepy Dave";
     }
     
     void Esc() // overrides the function of escape normally
@@ -103,7 +141,7 @@ public class MapController : MonoBehaviour
 
     public void E_Editing() //ending editing - switching to view mode
     {
-        global.GetComponent<Global>().gameState = 1;
+        global.GetComponent<Global>().gameState = 1; //causing problem where game state is changed when the game state is 3
     }
 
     public void St_Editing()
@@ -121,7 +159,17 @@ public class MapController : MonoBehaviour
         else
         {
             bw_icon.enabled = true;
-            c_icon.enabled = false; 
+            c_icon.enabled = false;
+            
+        }
+        
+        if (global.GetComponent<Global>().gameState == 3 && text1 == "Sleepy Dave")
+        {
+            button.enabled = true;
+        }
+        else
+        {
+            button.enabled = false;
         }
     }
 }

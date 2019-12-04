@@ -14,6 +14,7 @@ public class Walking : MonoBehaviour
     public float scale;
 
     public GameObject global;
+    public GameObject map;
     public Rigidbody2D rb;
 
     void Start()
@@ -21,12 +22,14 @@ public class Walking : MonoBehaviour
         speed = minSpeed;
         rb = GetComponent<Rigidbody2D>();
         global = GameObject.Find("Game Manager");
+        global = GameObject.Find("Map Manager");
+        
     }
 
 
     void FixedUpdate()
     {
-        if (global.GetComponent<Global>().gameState == 0)
+        if (global.GetComponent<Global>().currentGS == Global.GameState.Walking)
         {
             Controls();
             Check();
@@ -68,10 +71,14 @@ public class Walking : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.M))
         {
-            global.GetComponent<Global>().gameState = 1;
+            global.GetComponent<Global>().currentGS = Global.GameState.MViewing;
         }
 
-        if(Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A))
+        if (Input.GetKeyUp(KeyCode.D))
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
+        else if(Input.GetKeyUp(KeyCode.A))
         {
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
         }
@@ -81,7 +88,8 @@ public class Walking : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.E))
         {
-            global.GetComponent<Global>().gameState = 3;
+            global.GetComponent<Global>().currentGS = Global.GameState.MViewing;
+            map.GetComponent<MapController>().current_char = other.tag;
         }
     }
 }

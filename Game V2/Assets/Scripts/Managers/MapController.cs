@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Internal.UIElements;
@@ -7,27 +8,24 @@ public class MapController : MonoBehaviour
 {
     public Image map;
 
-    public GameObject sleepyDave;
-    public Image button;
+    public GameObject [] characters;
+    public string [] c_names; //hard code later!!!
+    public string current_char;
+    
+    //public Image button;
     
     public GameObject q_box;
     public GameObject d_box;
 
     public bool asked = false;
-    
-    public InputField inputf1;
-    private string text1 = "";
-    
-    public Image bw_icon;
-    public Image c_icon;
 
     public Text question;
     public Text answer; 
     
     public GameObject global;
-    
+
     private bool editing = false;
-    
+
     void Start()
     {
         global = GameObject.Find("Game Manager");
@@ -35,31 +33,31 @@ public class MapController : MonoBehaviour
     
     void Update()
     {
-        if (global.GetComponent<Global>().gameState == 1)
+        if (global.GetComponent<Global>().currentGS == Global.GameState.MViewing) //viewing the map
         {
             MapActivate();
             VControls();
         }
-        else if (global.GetComponent<Global>().gameState == 2) 
+        else if (global.GetComponent<Global>().currentGS == Global.GameState.MEditing) //editing people's names
         {
             MapActivate();
             EControls();
         }
-        else if (global.GetComponent<Global>().gameState == 3)
+        else if (global.GetComponent<Global>().currentGS == Global.GameState.Selecting) //questioning
         {
             MapActivate();
-            QControls();
+            SControls();
         }
-        else
+        else //walking mode
         {
             MapDeactivate();
-            //deactivate notes but save all text
+            //deactivate notes but save all text 
         }
     }
 
     void MapActivate()
     {
-        sleepyDave.SetActive(true);
+        //set empty character parent to active !!!!
         NameCheck();
         map.enabled = true;
         
@@ -67,7 +65,7 @@ public class MapController : MonoBehaviour
 
     void MapDeactivate()
     {
-        sleepyDave.SetActive(false);
+        //set empty character parent to deactive !!!!!
         map.enabled = false;
         d_box.SetActive(false);
         q_box.SetActive(false);
@@ -76,10 +74,9 @@ public class MapController : MonoBehaviour
 
     void VControls()
     {
-        //checks if they are false and if they aren't then it activates game state 2
         if (Input.GetKeyUp(KeyCode.N)) // changes into viewing
         {
-            global.GetComponent<Global>().gameState = 0; //walkin time
+            global.GetComponent<Global>().currentGS = Global.GameState.Walking; //walkin time
         }
         
     }
@@ -88,37 +85,46 @@ public class MapController : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            global.GetComponent<Global>().gameState = 1; //back to map
+            global.GetComponent<Global>().currentGS = global.GetComponent<Global>().prevGS; //back to map
         }
 
         //put in editing the input fields here
     }
 
-    void QControls()
+    void SControls()
     {
+        string input;
+        string output;
         q_box.SetActive(true);
         d_box.SetActive(true);
         NameCheck();
-        if (q_box.GetComponentInChildren<Text>().text == "Sleepy Dave" && asked == true)
+        
+        //call the Story Controller function
+        if (asked == true)
         {
-            d_box.GetComponentInChildren<Text>().text =
-                "I know Sleepy Dave, he was more of a father to me than my own Dad was. It's a shame what's happening to his bar, I offered him a job at my store but he wouldn't take it.";
-            asked = false;
+            //filters out the spaces for input into Inkle
+            input = d_box.GetComponentInChildren<Text>().text.Replace(" ", String.Empty);
+            //thing to sent into inle need to refernce object
+            //create tags
+            //create parent object for easy deactiation and such
+            SetKnot(current_char, input); 
+            //read in output string from Story contorler
+            d_box.GetComponentInChildren<Text>().text = output;
+                asked = false;
         }
 
-        if (Input.GetKeyUp(KeyCode.Q))
+        if (Input.GetKeyUp(KeyCode.Q)) //exists out of convo
         {
-            global.GetComponent<Global>().gameState = 0;//back to walking
-            d_box.GetComponentInChildren<Text>().text = "Ciao! My name is Giovanni!";
+            global.GetComponent<Global>().currentGS = Global.GameState.Walking;//back to walking
         }    
     }
 
-    public void Ask()
+    public void Ask() //linked to button in order to update the textbox
     {
         asked = true;
     }
 
-    public void AddName()
+    public void AddName() //adds name to text box by pressing button ( button specific)
     {
         q_box.GetComponentInChildren<Text>().text = "Sleepy Dave";
     }
@@ -127,50 +133,68 @@ public class MapController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Escape))
         {
-            inputf1.DeactivateInputField(); // 1
-            inputf1.text = text1;
-
-            editing = false;
+            //deactviates the input field
+            //inputf1.DeactivateInputField(); // 
+            //inputf1.text = text1;
         }
     }
     
     public void Save() // saving the text once the input field is called
     {
-        text1 = inputf1.text;
+        for(int i = 0; i < characters.Length; i++)
+        { 
+            c_names[i]= characters[i].transform.GetChild(0).GetComponentInChildren<Text>().text;
+        }
+        
     }
 
-    public void E_Editing() //ending editing - switching to view mode
+    public void E_Editing() //ending editing - switching to previous mode fixes problem of game states
     {
-        global.GetComponent<Global>().gameState = 1; //causing problem where game state is changed when the game state is 3
+        global.GetComponent<Global>().currentGS = global.GetComponent<Global>().prevGS; 
+        global.GetComponent<Global>().prevGS = global.GetComponent<Global>().currentGS;
     }
 
     public void St_Editing()
     {
-        global.GetComponent<Global>().gameState = 2;
+        //logic to assign the correct previous state to the variable, making sure editing doesn't become one of them
+        if (global.GetComponent<Global>().prevGS == Global.GameState.Walking)
+        {
+            global.GetComponent<Global>().prevGS = global.GetComponent<Global>().currentGS;
+        }
+        else if (global.GetComponent<Global>().prevGS == Global.GameState.MViewing)
+        {
+            global.GetComponent<Global>().prevGS = Global.GameState.MViewing;
+        }
+        else if (global.GetComponent<Global>().prevGS == Global.GameState.Selecting)
+        {
+            global.GetComponent<Global>().prevGS = Global.GameState.Selecting;
+        }
+        
+        global.GetComponent<Global>().currentGS = Global.GameState.MEditing;
     }
 
     void NameCheck()
     {
-        if (text1 == "Sleepy Dave")
+        for (int i = 0; i < characters.Length; i++)
         {
-            bw_icon.enabled = false;
-            c_icon.enabled = true;
-        }
-        else
-        {
-            bw_icon.enabled = true;
-            c_icon.enabled = false;
+            if (c_names[i] == characters[i].name)
+            {
+                characters[i].transform.GetChild(1).GetComponent<Image>().enabled = false; //bw icon disabled
+                characters[i].transform.GetChild(2).GetComponent<Image>().enabled = true; //color icon enabled
+            } else {
+                characters[i].transform.GetChild(1).GetComponent<Image>().enabled = true; //bw icon disabled
+                characters[i].transform.GetChild(2).GetComponent<Image>().enabled = false; //color icon enabled
+            }
             
+            if (global.GetComponent<Global>().currentGS == Global.GameState.Selecting && c_names[i] == characters[i].name)
+            {
+                characters[i].transform.GetChild(3).GetComponent<GameObject>().SetActive(true);
+            } else {
+                characters[i].transform.GetChild(3).GetComponent<GameObject>().SetActive(false);
+            }
         }
+
         
-        if (global.GetComponent<Global>().gameState == 3 && text1 == "Sleepy Dave")
-        {
-            button.enabled = true;
-        }
-        else
-        {
-            button.enabled = false;
-        }
     }
 }
 

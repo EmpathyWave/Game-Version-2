@@ -7,5 +7,13 @@ public class Global : MonoBehaviour
 //part of the game manager
 {
    // 0 - walking  | 1 - map viewing  2 - map editing | 3 - choosing topic to talk about
-   public int gameState = 0; 
+   public enum GameState {Walking, MViewing, MEditing, Selecting};
+
+   public GameState currentGS;
+   public GameState prevGS;
+   void Start()
+   {
+      currentGS = GameState.Walking;
+      prevGS = GameState.Walking;
+   }
 }

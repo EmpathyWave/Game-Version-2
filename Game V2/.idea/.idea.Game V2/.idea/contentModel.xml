@@ -101,7 +101,6 @@
             <e p="Walking.cs" t="Include" />
           </e>
           <e p="Global.cs" t="Include" />
-          <e p="Info.cs" t="Include" />
           <e p="Managers" t="Include">
             <e p="MapController.cs" t="Include" />
             <e p="StoryController.cs" t="Include" />

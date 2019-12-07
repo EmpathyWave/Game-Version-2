@@ -5,8 +5,8 @@ using Ink.Runtime;
 
 public class StoryController : MonoBehaviour
 {
-    private Story story;
     public TextAsset inkJSONAsset;
+    private Story story;
     public string currentKnot;
     public string output;
 

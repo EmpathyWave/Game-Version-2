@@ -22,7 +22,7 @@ public class Walking : MonoBehaviour
         speed = minSpeed;
         rb = GetComponent<Rigidbody2D>();
         global = GameObject.Find("Game Manager");
-        global = GameObject.Find("Map Manager");
+        map = GameObject.Find("Map Manager");
         
     }
 
@@ -72,6 +72,7 @@ public class Walking : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.M))
         {
             global.GetComponent<Global>().currentGS = Global.GameState.MViewing;
+            global.GetComponent<Global>().prevGS = Global.GameState.MViewing;
         }
 
         if (Input.GetKeyUp(KeyCode.D))
@@ -88,7 +89,8 @@ public class Walking : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.E))
         {
-            global.GetComponent<Global>().currentGS = Global.GameState.MViewing;
+            global.GetComponent<Global>().currentGS = Global.GameState.Selecting;
+            global.GetComponent<Global>().prevGS = Global.GameState.Selecting;
             map.GetComponent<MapController>().current_char = other.tag;
         }
     }

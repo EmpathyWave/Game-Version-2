@@ -8,6 +8,7 @@ public class MapController : MonoBehaviour
 {
     public Image map;
 
+    public GameObject parent_c;
     public GameObject [] characters;
     public string [] c_names; //hard code later!!!
     public string current_char;
@@ -23,12 +24,17 @@ public class MapController : MonoBehaviour
     public Text answer; 
     
     public GameObject global;
-
-    private bool editing = false;
+    public GameObject story;
+    public GameObject girl;
+    
+    string input = "";
+    string output = "";
 
     void Start()
     {
         global = GameObject.Find("Game Manager");
+        story = GameObject.Find("Story Manager");
+        girl = GameObject.Find("Girl");
     }
     
     void Update()
@@ -58,6 +64,7 @@ public class MapController : MonoBehaviour
     void MapActivate()
     {
         //set empty character parent to active !!!!
+        parent_c.SetActive(true);
         NameCheck();
         map.enabled = true;
         
@@ -66,6 +73,7 @@ public class MapController : MonoBehaviour
     void MapDeactivate()
     {
         //set empty character parent to deactive !!!!!
+        parent_c.SetActive(false);
         map.enabled = false;
         d_box.SetActive(false);
         q_box.SetActive(false);
@@ -78,7 +86,6 @@ public class MapController : MonoBehaviour
         {
             global.GetComponent<Global>().currentGS = Global.GameState.Walking; //walkin time
         }
-        
     }
 
     void EControls()
@@ -87,14 +94,11 @@ public class MapController : MonoBehaviour
         {
             global.GetComponent<Global>().currentGS = global.GetComponent<Global>().prevGS; //back to map
         }
-
-        //put in editing the input fields here
     }
 
     void SControls()
     {
-        string input;
-        string output;
+        
         q_box.SetActive(true);
         d_box.SetActive(true);
         NameCheck();
@@ -103,15 +107,15 @@ public class MapController : MonoBehaviour
         if (asked == true)
         {
             //filters out the spaces for input into Inkle
-            input = d_box.GetComponentInChildren<Text>().text.Replace(" ", String.Empty);
-            //thing to sent into inle need to refernce object
-            //create tags
-            //create parent object for easy deactiation and such
-            SetKnot(current_char, input); 
-            //read in output string from Story contorler
-            d_box.GetComponentInChildren<Text>().text = output;
-                asked = false;
+            input = q_box.GetComponentInChildren<Text>().text.Replace(" ", String.Empty) + "_";
+            story.GetComponent<StoryController>().SetKnot(current_char, input);
+            q_box.GetComponentInChildren<Text>().text = "";
+            asked = false;
+            
         }
+        
+        output = story.GetComponent<StoryController>().output;
+        d_box.GetComponentInChildren<Text>().text = output;
 
         if (Input.GetKeyUp(KeyCode.Q)) //exists out of convo
         {
@@ -133,9 +137,11 @@ public class MapController : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Escape))
         {
-            //deactviates the input field
-            //inputf1.DeactivateInputField(); // 
-            //inputf1.text = text1;
+            for (int i = 0; i < characters.Length; i++)
+            {
+                characters[i].transform.GetChild(0).GetComponent<InputField>().DeactivateInputField();
+                c_names[i]= characters[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
+            }
         }
     }
     
@@ -143,25 +149,24 @@ public class MapController : MonoBehaviour
     {
         for(int i = 0; i < characters.Length; i++)
         { 
-            c_names[i]= characters[i].transform.GetChild(0).GetComponentInChildren<Text>().text;
+            c_names[i] = characters[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
         }
         
     }
 
     public void E_Editing() //ending editing - switching to previous mode fixes problem of game states
     {
+        
         global.GetComponent<Global>().currentGS = global.GetComponent<Global>().prevGS; 
         global.GetComponent<Global>().prevGS = global.GetComponent<Global>().currentGS;
     }
 
     public void St_Editing()
     {
+        global.GetComponent<Global>().currentGS = Global.GameState.MEditing;
         //logic to assign the correct previous state to the variable, making sure editing doesn't become one of them
-        if (global.GetComponent<Global>().prevGS == Global.GameState.Walking)
-        {
-            global.GetComponent<Global>().prevGS = global.GetComponent<Global>().currentGS;
-        }
-        else if (global.GetComponent<Global>().prevGS == Global.GameState.MViewing)
+
+        if (global.GetComponent<Global>().prevGS == Global.GameState.MViewing)
         {
             global.GetComponent<Global>().prevGS = Global.GameState.MViewing;
         }
@@ -170,10 +175,10 @@ public class MapController : MonoBehaviour
             global.GetComponent<Global>().prevGS = Global.GameState.Selecting;
         }
         
-        global.GetComponent<Global>().currentGS = Global.GameState.MEditing;
+        
     }
 
-    void NameCheck()
+    void NameCheck() //can be seperated and put into two seprate event functions 
     {
         for (int i = 0; i < characters.Length; i++)
         {
@@ -188,13 +193,11 @@ public class MapController : MonoBehaviour
             
             if (global.GetComponent<Global>().currentGS == Global.GameState.Selecting && c_names[i] == characters[i].name)
             {
-                characters[i].transform.GetChild(3).GetComponent<GameObject>().SetActive(true);
+                characters[i].transform.GetChild(3).GetComponent<Image>().enabled = true;
             } else {
-                characters[i].transform.GetChild(3).GetComponent<GameObject>().SetActive(false);
+                characters[i].transform.GetChild(3).GetComponent<Image>().enabled = false;
             }
         }
-
-        
     }
 }
 

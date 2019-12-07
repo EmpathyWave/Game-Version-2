@@ -39,6 +39,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Plugins/Ink/Example/Scripts/Editor/BasicInkExampleEditor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Controls/Editing.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Managers/StoryController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Plugins/Ink/InkRuntime/Story.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Global.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Controls/Walking.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -46,9 +47,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Assets/Scripts/Info.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/StoryController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Global.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Controls/Walking.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/StoryController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Managers/MapController.cs" />
       </list>
     </option>
@@ -108,6 +109,7 @@
       <workItem from="1574791525142" duration="1212000" />
       <workItem from="1575312796891" duration="7967000" />
       <workItem from="1575432792544" duration="7971000" />
+      <workItem from="1575483412066" duration="7925000" />
     </task>
     <servers />
   </component>

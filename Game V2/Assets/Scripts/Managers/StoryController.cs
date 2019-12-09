@@ -9,10 +9,16 @@ public class StoryController : MonoBehaviour
     private Story story;
     public string currentKnot;
     public string output;
+    public GameObject global;
 
     void Awake()
     {
         story = new Story(inkJSONAsset.text);
+    }
+
+    void Start()
+    {
+        global = GameObject.Find("Game Manager");
     }
 
     // Update is called once per frame
@@ -20,7 +26,12 @@ public class StoryController : MonoBehaviour
     {
         if (story.canContinue)
         {
-            output = story.Continue();
+            if (global.GetComponent<Global>().currentGS == Global.GameState.Selecting)
+            {
+                output = story.Continue();
+            }else {
+                SetKnot("Default","Default_");
+            }
         }
     }
 

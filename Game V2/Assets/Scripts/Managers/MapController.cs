@@ -8,9 +8,10 @@ public class MapController : MonoBehaviour
 {
     public Image map;
 
-    public GameObject parent_c;
-    public GameObject [] characters;
-    public string [] c_names; //hard code later!!!
+    public GameObject parent;
+    public GameObject [] inputs;
+    public string [] names; //hard code later!!!
+    public Button[] buttons;
     public string current_char;
     
     //public Image button;
@@ -27,8 +28,10 @@ public class MapController : MonoBehaviour
     public GameObject story;
     public GameObject girl;
     
-    string input = "";
-    string output = "";
+    string story_input = "";
+    string story_output = "";
+    
+    public int input_num = 0;
 
     void Start()
     {
@@ -64,7 +67,7 @@ public class MapController : MonoBehaviour
     void MapActivate()
     {
         //set empty character parent to active !!!!
-        parent_c.SetActive(true);
+        parent.SetActive(true);
         NameCheck();
         map.enabled = true;
         
@@ -73,7 +76,7 @@ public class MapController : MonoBehaviour
     void MapDeactivate()
     {
         //set empty character parent to deactive !!!!!
-        parent_c.SetActive(false);
+        parent.SetActive(false);
         map.enabled = false;
         d_box.SetActive(false);
         q_box.SetActive(false);
@@ -107,18 +110,30 @@ public class MapController : MonoBehaviour
         if (asked == true)
         {
             //filters out the spaces for input into Inkle
-            input = q_box.GetComponentInChildren<Text>().text.Replace(" ", String.Empty) + "_";
-            story.GetComponent<StoryController>().SetKnot(current_char, input);
+            story_input = q_box.GetComponentInChildren<Text>().text.Replace(" ", String.Empty) + "_";
+            story.GetComponent<StoryController>().SetKnot(current_char, story_input);
             q_box.GetComponentInChildren<Text>().text = "";
+            for (int i = 0; i < buttons.Length; i++) //resets buttons
+            {
+                buttons[i].interactable = true;
+            }
             asked = false;
-            
         }
-        
-        output = story.GetComponent<StoryController>().output;
-        d_box.GetComponentInChildren<Text>().text = output;
+
+        story_output = story.GetComponent<StoryController>().output;
+        d_box.GetComponentInChildren<Text>().text = story_output;
 
         if (Input.GetKeyUp(KeyCode.Q)) //exists out of convo
         {
+            d_box.GetComponentInChildren<Text>().text = "";
+            q_box.GetComponentInChildren<Text>().text = "";
+            story_output = "";
+            for (int i = 0; i < buttons.Length; i++) //resets buttons
+            {
+                buttons[i].interactable = true;
+            }
+            input_num = 0;
+            story.GetComponent<StoryController>().SetKnot(current_char, "Default_");
             global.GetComponent<Global>().currentGS = Global.GameState.Walking;//back to walking
         }    
     }
@@ -128,28 +143,39 @@ public class MapController : MonoBehaviour
         asked = true;
     }
 
-    public void AddName() //adds name to text box by pressing button ( button specific)
+    public void ButtonHandler(Button button)
     {
-        q_box.GetComponentInChildren<Text>().text = "Sleepy Dave";
+        if (input_num == 0)
+        {
+            q_box.GetComponentInChildren<Text>().text += button.name;
+            button.interactable = false;
+            input_num = 1;
+        } else if (input_num == 1) {
+            q_box.GetComponentInChildren<Text>().text += " & ";
+            q_box.GetComponentInChildren<Text>().text += button.name;
+            button.interactable = false;
+            input_num = 2;
+        }
+        
+
     }
-    
     void Esc() // overrides the function of escape normally
     {
         if (Input.GetKey(KeyCode.Escape))
         {
-            for (int i = 0; i < characters.Length; i++)
+            for (int i = 0; i < inputs.Length; i++)
             {
-                characters[i].transform.GetChild(0).GetComponent<InputField>().DeactivateInputField();
-                c_names[i]= characters[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
+                inputs[i].transform.GetChild(0).GetComponent<InputField>().DeactivateInputField();
+                names[i]= inputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
             }
         }
     }
     
     public void Save() // saving the text once the input field is called
     {
-        for(int i = 0; i < characters.Length; i++)
+        for(int i = 0; i < inputs.Length; i++)
         { 
-            c_names[i] = characters[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
+            names[i] = inputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
         }
         
     }
@@ -180,22 +206,22 @@ public class MapController : MonoBehaviour
 
     void NameCheck() //can be seperated and put into two seprate event functions 
     {
-        for (int i = 0; i < characters.Length; i++)
+        for (int i = 0; i < inputs.Length; i++)
         {
-            if (c_names[i] == characters[i].name)
+            if (names[i] == inputs[i].name)
             {
-                characters[i].transform.GetChild(1).GetComponent<Image>().enabled = false; //bw icon disabled
-                characters[i].transform.GetChild(2).GetComponent<Image>().enabled = true; //color icon enabled
+                inputs[i].transform.GetChild(1).GetComponent<Image>().enabled = false; //bw icon disabled
+                inputs[i].transform.GetChild(2).GetComponent<Image>().enabled = true; //color icon enabled
             } else {
-                characters[i].transform.GetChild(1).GetComponent<Image>().enabled = true; //bw icon disabled
-                characters[i].transform.GetChild(2).GetComponent<Image>().enabled = false; //color icon enabled
+                inputs[i].transform.GetChild(1).GetComponent<Image>().enabled = true; //bw icon disabled
+                inputs[i].transform.GetChild(2).GetComponent<Image>().enabled = false; //color icon enabled
             }
             
-            if (global.GetComponent<Global>().currentGS == Global.GameState.Selecting && c_names[i] == characters[i].name)
+            if (global.GetComponent<Global>().currentGS == Global.GameState.Selecting && names[i] == inputs[i].name && input_num < 3) //ativating buttons
             {
-                characters[i].transform.GetChild(3).GetComponent<Image>().enabled = true;
+                inputs[i].transform.GetChild(3).GetComponent<Image>().enabled = true;
             } else {
-                characters[i].transform.GetChild(3).GetComponent<Image>().enabled = false;
+                inputs[i].transform.GetChild(3).GetComponent<Image>().enabled = false;
             }
         }
     }

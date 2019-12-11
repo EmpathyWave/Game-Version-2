@@ -117,9 +117,10 @@ public class MapController : MonoBehaviour
             {
                 buttons[i].interactable = true;
             }
+            input_num = 0;
             asked = false;
         }
-
+        //story.GetComponent<StoryController>().SetKnot(current_char, "Default_");
         story_output = story.GetComponent<StoryController>().output;
         d_box.GetComponentInChildren<Text>().text = story_output;
 

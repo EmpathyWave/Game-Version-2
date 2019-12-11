@@ -15,6 +15,8 @@ public class Walking : MonoBehaviour
 
     public GameObject global;
     public GameObject map;
+    public GameObject story;
+    
     public Rigidbody2D rb;
 
     void Start()
@@ -23,7 +25,7 @@ public class Walking : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         global = GameObject.Find("Game Manager");
         map = GameObject.Find("Map Manager");
-        
+        story = GameObject.Find("Story Manager");
     }
 
 
@@ -85,6 +87,16 @@ public class Walking : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            global.GetComponent<Global>().currentGS = Global.GameState.Selecting;
+            global.GetComponent<Global>().prevGS = Global.GameState.Selecting;
+            map.GetComponent<MapController>().current_char = other.tag;
+            story.GetComponent<StoryController>().SetKnot(other.tag, "Default_");
+        }
+    }
     private void OnTriggerStay2D(Collider2D other)
     {
         if (Input.GetKeyUp(KeyCode.E))
@@ -92,6 +104,8 @@ public class Walking : MonoBehaviour
             global.GetComponent<Global>().currentGS = Global.GameState.Selecting;
             global.GetComponent<Global>().prevGS = Global.GameState.Selecting;
             map.GetComponent<MapController>().current_char = other.tag;
+            story.GetComponent<StoryController>().SetKnot(other.tag, "Default_");
+            
         }
     }
 }

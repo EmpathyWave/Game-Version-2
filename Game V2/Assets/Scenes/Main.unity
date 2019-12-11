@@ -526,6 +526,7 @@ MonoBehaviour:
   scale: 0.004
   global: {fileID: 631599770}
   map: {fileID: 1679986021}
+  story: {fileID: 0}
   rb: {fileID: 229358520}
 --- !u!212 &229358522
 SpriteRenderer:
@@ -1755,6 +1756,7 @@ MonoBehaviour:
   currentKnot: 
   output: 
   global: {fileID: 631599770}
+  map: {fileID: 0}
 --- !u!4 &818131961
 Transform:
   m_ObjectHideFlags: 0
@@ -1856,7 +1858,7 @@ GameObject:
   - component: {fileID: 973310269}
   - component: {fileID: 973310268}
   m_Layer: 0
-  m_Name: Character
+  m_Name: Sleepy Dave
   m_TagString: SleepyDave
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

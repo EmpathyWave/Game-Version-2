@@ -10,6 +10,7 @@ public class StoryController : MonoBehaviour
     public string currentKnot;
     public string output;
     public GameObject global;
+    public GameObject map;
 
     void Awake()
     {
@@ -19,6 +20,7 @@ public class StoryController : MonoBehaviour
     void Start()
     {
         global = GameObject.Find("Game Manager");
+        map = GameObject.Find("Map Manager");
     }
 
     // Update is called once per frame
@@ -29,8 +31,8 @@ public class StoryController : MonoBehaviour
             if (global.GetComponent<Global>().currentGS == Global.GameState.Selecting)
             {
                 output = story.Continue();
-            }else {
-                SetKnot("Default","Default_");
+            }else {//
+                SetKnot(map.GetComponent<MapController>().current_char,"Default_");
             }
         }
     }

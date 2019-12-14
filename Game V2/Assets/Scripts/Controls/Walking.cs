@@ -86,18 +86,8 @@ public class Walking : MonoBehaviour
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
         }
     }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (Input.GetKeyUp(KeyCode.E))
-        {
-            global.GetComponent<Global>().currentGS = Global.GameState.Selecting;
-            global.GetComponent<Global>().prevGS = Global.GameState.Selecting;
-            map.GetComponent<MapController>().current_char = other.tag;
-            story.GetComponent<StoryController>().SetKnot(other.tag, "Default_");
-        }
-    }
-    private void OnTriggerStay2D(Collider2D other)
+    
+    private void OnTriggerStay2D(Collider2D other) //is anything entering my trigger?
     {
         if (Input.GetKeyUp(KeyCode.E))
         {

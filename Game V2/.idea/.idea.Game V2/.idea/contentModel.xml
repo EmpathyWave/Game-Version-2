@@ -96,6 +96,7 @@
           </e>
         </e>
         <e p="Scripts" t="Include">
+          <e p="CameraFollow.cs" t="Include" />
           <e p="Controls" t="Include">
             <e p="Editing.cs" t="Include" />
             <e p="Walking.cs" t="Include" />
@@ -103,6 +104,7 @@
           <e p="Global.cs" t="Include" />
           <e p="Managers" t="Include">
             <e p="MapController.cs" t="Include" />
+            <e p="MenuController.cs" t="Include" />
             <e p="StoryController.cs" t="Include" />
           </e>
         </e>

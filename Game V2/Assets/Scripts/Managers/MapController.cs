@@ -4,35 +4,52 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Internal.UIElements;
 using UnityEngine.UI;
-public class MapController : MonoBehaviour
+public class MapController : MonoBehaviour //handles all the UI elements when navigating the map and conflicts and even the story
 {
-    public Image map;
+    [Header("Large Map")] 
+    public Image Lmap;
+    public GameObject LMparent; //parent object to Large Map
+    public GameObject[] LMinputs; //input fields
+    public string [] LMnames; //hard code later!!
+    public Button[] LMbuttons;
+    
+    
+    [Header("Conflicts")] 
+    public Image Cpage;
+    public GameObject Cparent; //parent object to Conflicts
+    public Button[] Cbuttons;
+   
+    
+    [Header("Small Map 1")] 
+    public Image Smap1;
+    public GameObject [] SM1inputs;
+    public GameObject SM1parent; //parent object to Small Map 1
+    public string [] SM1names; //hard code later!!
+    public Button[] SM1buttons;
+    
+    
+    [Header("Small Map 2")]
+    public Image Smap2;
+    public GameObject SM2parent; //parent object to Small Map 2
+    public GameObject [] SM2inputs;
+    public string [] SM2names; //hard code later!!
+    public Button [] SM2buttons;
 
-    public GameObject parent;
-    public GameObject [] inputs;
-    public string [] names; //hard code later!!!
-    public Button[] buttons;
-    public string current_char;
     
-    //public Image button;
-    
+    //inkle / story 
+    public string current_char; //tracks which character you are currently talking to
+    public bool asked = false; //check to see if the player has asked
+    string story_input = ""; //put into inkle system
+    string story_output = ""; //what gets outputted
     public GameObject q_box;
     public GameObject d_box;
-
-    public bool asked = false;
-
-    public Text question;
-    public Text answer; 
+    public int input_num = 0; //checks how many inputs have been selected
     
+    //managers and globals
     public GameObject global;
     public GameObject story;
     public GameObject girl;
     
-    string story_input = "";
-    string story_output = "";
-    
-    public int input_num = 0;
-
     void Start()
     {
         global = GameObject.Find("Game Manager");
@@ -42,84 +59,169 @@ public class MapController : MonoBehaviour
     
     void Update()
     {
-        if (global.GetComponent<Global>().currentGS == Global.GameState.MViewing) //viewing the map
+        //viewing the map
+        if (global.GetComponent<Global>().currentGS == Global.GameState.Viewing) 
         {
-            MapActivate();
+            UIActivate();
             VControls();
         }
-        else if (global.GetComponent<Global>().currentGS == Global.GameState.MEditing) //editing people's names
+        //editing people's names
+        else if (global.GetComponent<Global>().currentGS == Global.GameState.Editing) 
         {
-            MapActivate();
+            UIActivate();
             EControls();
         }
-        else if (global.GetComponent<Global>().currentGS == Global.GameState.Selecting) //questioning
+        //questioning
+        else if (global.GetComponent<Global>().currentGS == Global.GameState.Selecting)
         {
-            MapActivate();
+            UIActivate();
             SControls();
         }
         else //walking mode
         {
-            MapDeactivate();
+            UIDeactivate();
             //deactivate notes but save all text 
         }
     }
-
-    void MapActivate()
+    
+    //____________________________________________________________________________________________________________________________________________________UI FUNCTIONS
+    //UI FUNCTIONS____________________________________________________________________________________________________________________________________________________
+    void UIActivate() //activates the corresponding UI elements
     {
-        //set empty character parent to active !!!!
-        parent.SetActive(true);
-        NameCheck();
-        map.enabled = true;
-        
+        if (global.GetComponent<Global>().currentUIS == Global.UIState.LargeMap) 
+        {
+            LMparent.SetActive(true);
+            Lmap.enabled = true;
+            NameCheck();
+            
+            Cparent.SetActive(false);
+            Cpage.enabled = false;
+            SM1parent.SetActive(false);
+            Smap1.enabled = false;
+            SM2parent.SetActive(false);
+            Smap2.enabled = false;
+        }
+        if (global.GetComponent<Global>().currentUIS == Global.UIState.Conflicts)
+        {
+            Cparent.SetActive(true);
+            Cpage.enabled = true;
+            
+            LMparent.SetActive(false);
+            Lmap.enabled = false;
+            SM1parent.SetActive(false);
+            Smap1.enabled = false;
+            SM2parent.SetActive(false);
+            Smap2.enabled = false;
+        }
+        if (global.GetComponent<Global>().currentUIS == Global.UIState.SmallMap1)
+        {
+            SM1parent.SetActive(true);
+            Smap1.enabled = true;
+            NameCheck();
+            
+            LMparent.SetActive(false);
+            Lmap.enabled = false;
+            Cparent.SetActive(false);
+            Cpage.enabled = false;
+            SM2parent.SetActive(false);
+            Smap2.enabled = false;
+        }
+        if (global.GetComponent<Global>().currentUIS == Global.UIState.SmallMap2)
+        {
+            SM2parent.SetActive(true);
+            Smap2.enabled = true;
+            NameCheck();
+            
+            Cparent.SetActive(false);
+            Cpage.enabled = false;
+            LMparent.SetActive(false);
+            Lmap.enabled = false;
+            Cparent.SetActive(false);
+            Cpage.enabled = false;
+            SM1parent.SetActive(false);
+            Smap1.enabled = false;
+        }
     }
 
-    void MapDeactivate()
+    void UIDeactivate() //defaults to walking on everything
     {
-        //set empty character parent to deactive !!!!!
-        parent.SetActive(false);
-        map.enabled = false;
+        //set empty character parent to deactive !
+        LMparent.SetActive(false);
+        Lmap.enabled = false;
+        Cparent.SetActive(false);
+        Cpage.enabled = false;
+        SM1parent.SetActive(false);
+        Smap1.enabled = false;
+        SM2parent.SetActive(false);
+        Smap2.enabled = false;
         d_box.SetActive(false);
         q_box.SetActive(false);
     }
-
-
+    
+    //_____________________________________________________________________________________________________________________________________________________CONTROLS
+    //CONTROLS ____________________________________________________________________________________________________________________________________________________
     void VControls()
     {
         if (Input.GetKeyUp(KeyCode.N)) // changes into viewing
         {
             global.GetComponent<Global>().currentGS = Global.GameState.Walking; //walkin time
+            global.GetComponent<Global>().currentUIS = Global.UIState.Walking; //walkin UI
         }
     }
 
-    void EControls()
+    void EControls() //switching from editing to whatever the fuck you were doing before
     {
-        if (Input.GetKeyUp(KeyCode.Escape))
+        if (Input.GetKeyUp(KeyCode.Escape)) 
         {
             global.GetComponent<Global>().currentGS = global.GetComponent<Global>().prevGS; //back to map
         }
     }
 
-    void SControls()
+    void SControls() 
     {
-        
         q_box.SetActive(true);
         d_box.SetActive(true);
         NameCheck();
         
-        //call the Story Controller function
+        //calls the Story Controller function
         if (asked == true)
         {
             //filters out the spaces for input into Inkle
             story_input = q_box.GetComponentInChildren<Text>().text.Replace(" ", String.Empty) + "_";
             story.GetComponent<StoryController>().SetKnot(current_char, story_input);
             q_box.GetComponentInChildren<Text>().text = "";
-            for (int i = 0; i < buttons.Length; i++) //resets buttons
+            if (global.GetComponent<Global>().currentUIS == Global.UIState.LargeMap)
             {
-                buttons[i].interactable = true;
+                for (int i = 0; i < LMbuttons.Length; i++) //resets buttons
+                {
+                    LMbuttons[i].interactable = true;
+                }
+            }
+            if (global.GetComponent<Global>().currentUIS == Global.UIState.Conflicts)
+            {
+                for (int i = 0; i < Cbuttons.Length; i++) //resets buttons
+                {
+                    Cbuttons[i].interactable = true;
+                }
+            }
+            if (global.GetComponent<Global>().currentUIS == Global.UIState.SmallMap1)
+            {
+                for (int i = 0; i < SM1buttons.Length; i++) //resets buttons
+                {
+                    SM1buttons[i].interactable = true;
+                }
+            }
+            if (global.GetComponent<Global>().currentUIS == Global.UIState.SmallMap2)
+            {
+                for (int i = 0; i < SM2buttons.Length; i++) //resets buttons
+                {
+                    SM2buttons[i].interactable = true;
+                }
             }
             input_num = 0;
             asked = false;
         }
+        
         //story.GetComponent<StoryController>().SetKnot(current_char, "Default_");
         story_output = story.GetComponent<StoryController>().output;
         d_box.GetComponentInChildren<Text>().text = story_output;
@@ -129,22 +231,70 @@ public class MapController : MonoBehaviour
             d_box.GetComponentInChildren<Text>().text = "";
             q_box.GetComponentInChildren<Text>().text = "";
             story_output = "";
-            for (int i = 0; i < buttons.Length; i++) //resets buttons
+
+            if (global.GetComponent<Global>().currentUIS == Global.UIState.LargeMap)
             {
-                buttons[i].interactable = true;
+                for (int i = 0; i < LMbuttons.Length; i++) //resets buttons
+                {
+                    LMbuttons[i].interactable = true;
+                }
+            }
+            if (global.GetComponent<Global>().currentUIS == Global.UIState.Conflicts)
+            {
+                for (int i = 0; i < Cbuttons.Length; i++) //resets buttons
+                {
+                    Cbuttons[i].interactable = true;
+                }
+            }
+            if (global.GetComponent<Global>().currentUIS == Global.UIState.SmallMap1)
+            {
+                for (int i = 0; i < SM1buttons.Length; i++) //resets buttons
+                {
+                    SM1buttons[i].interactable = true;
+                }
+            }
+            if (global.GetComponent<Global>().currentUIS == Global.UIState.SmallMap2)
+            {
+                for (int i = 0; i < SM2buttons.Length; i++) //resets buttons
+                {
+                    SM2buttons[i].interactable = true;
+                }
             }
             input_num = 0;
             story.GetComponent<StoryController>().SetKnot(current_char, "Default_");
-            global.GetComponent<Global>().currentGS = Global.GameState.Walking;//back to walking
+            global.GetComponent<Global>().currentGS = Global.GameState.Walking; //back to walking
+            global.GetComponent<Global>().currentUIS = Global.UIState.Walking; //back to walking UI
         }    
     }
 
-    public void Ask() //linked to button in order to update the textbox
+    //_______________________________________________________________________________________________________________________________________________BUTTON FUNCTIONS
+    //BUTTON FUNCTIONS ______________________________________________________________________________________________________________________________________________
+
+    //changing between UI states
+    public void LargeMap()
+    {
+        global.GetComponent<Global>().currentUIS = Global.UIState.LargeMap;
+    }
+    public void Conflicts()
+    {
+        global.GetComponent<Global>().currentUIS = Global.UIState.Conflicts;
+    }
+    public void SmallMap1()
+    {
+        global.GetComponent<Global>().currentUIS = Global.UIState.SmallMap1;
+    }
+    public void SmallMap2()
+    {
+        global.GetComponent<Global>().currentUIS = Global.UIState.SmallMap2;
+    }
+
+    //linked to button in order to update the textbox
+    public void Ask() 
     {
         asked = true;
     }
 
-    public void ButtonHandler(Button button)
+    public void ButtonHandler(Button button) //sends up the button name to the story input
     {
         if (input_num == 0)
         {
@@ -157,72 +307,150 @@ public class MapController : MonoBehaviour
             button.interactable = false;
             input_num = 2;
         }
-        
-
     }
+    
     void Esc() // overrides the function of escape normally
     {
         if (Input.GetKey(KeyCode.Escape))
         {
-            for (int i = 0; i < inputs.Length; i++)
+            if (global.GetComponent<Global>().currentUIS == Global.UIState.LargeMap) //LM
             {
-                inputs[i].transform.GetChild(0).GetComponent<InputField>().DeactivateInputField();
-                names[i]= inputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
+                for (int i = 0; i < LMinputs.Length; i++)
+                {
+                    LMinputs[i].transform.GetChild(0).GetComponent<InputField>().DeactivateInputField();
+                    LMnames[i]= LMinputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
+                }
+            }
+            if (global.GetComponent<Global>().currentUIS == Global.UIState.SmallMap1) //SM1
+            {
+                for (int i = 0; i < SM1inputs.Length; i++)
+                {
+                    SM1inputs[i].transform.GetChild(0).GetComponent<InputField>().DeactivateInputField();
+                    SM1names[i]= SM1inputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
+                }
+            }
+            if (global.GetComponent<Global>().currentUIS == Global.UIState.SmallMap2) //SM2
+            {
+                for (int i = 0; i < SM2inputs.Length; i++)
+                {
+                    SM2inputs[i].transform.GetChild(0).GetComponent<InputField>().DeactivateInputField();
+                    SM2names[i]= SM2inputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
+                }
             }
         }
     }
-    
+
     public void Save() // saving the text once the input field is called
     {
-        for(int i = 0; i < inputs.Length; i++)
-        { 
-            names[i] = inputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
+        if (global.GetComponent<Global>().currentUIS == Global.UIState.LargeMap) //LM
+        {
+            for (int i = 0; i < LMinputs.Length; i++)
+            {
+                LMnames[i] = LMinputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
+            }
         }
-        
+        if (global.GetComponent<Global>().currentUIS == Global.UIState.SmallMap1) //SM1
+        {
+            for (int i = 0; i < SM1inputs.Length; i++)
+            {
+                SM1names[i] = SM1inputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
+            }
+        }
+        if (global.GetComponent<Global>().currentUIS == Global.UIState.SmallMap2) //SM2
+        {
+            for (int i = 0; i < SM2inputs.Length; i++)
+            {
+                SM2names[i] = SM2inputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
+            }
+        }
     }
 
-    public void E_Editing() //ending editing - switching to previous mode fixes problem of game states
+    public void End_Editing() //ending editing - switching to previous mode fixes problem of game states
     {
-        
         global.GetComponent<Global>().currentGS = global.GetComponent<Global>().prevGS; 
         global.GetComponent<Global>().prevGS = global.GetComponent<Global>().currentGS;
     }
 
-    public void St_Editing()
+    public void Start_Editing() 
     {
-        global.GetComponent<Global>().currentGS = Global.GameState.MEditing;
+        global.GetComponent<Global>().currentGS = Global.GameState.Editing;
+        
         //logic to assign the correct previous state to the variable, making sure editing doesn't become one of them
-
-        if (global.GetComponent<Global>().prevGS == Global.GameState.MViewing)
+        if (global.GetComponent<Global>().prevGS == Global.GameState.Viewing)
         {
-            global.GetComponent<Global>().prevGS = Global.GameState.MViewing;
+            global.GetComponent<Global>().prevGS = Global.GameState.Viewing;
         }
         else if (global.GetComponent<Global>().prevGS == Global.GameState.Selecting)
         {
             global.GetComponent<Global>().prevGS = Global.GameState.Selecting;
         }
-        
-        
     }
 
-    void NameCheck() //can be seperated and put into two seprate event functions 
+    //_____________________________________________________________________________________________________________________________________________WORKER FUNCTIONS
+    //WORKER FUNCTIONS ____________________________________________________________________________________________________________________________________________
+    void NameCheck() 
     {
-        for (int i = 0; i < inputs.Length; i++)
+        if (global.GetComponent<Global>().currentUIS == Global.UIState.LargeMap) //LM
         {
-            if (names[i] == inputs[i].name)
+            for (int i = 0; i < LMinputs.Length; i++)
             {
-                inputs[i].transform.GetChild(1).GetComponent<Image>().enabled = false; //bw icon disabled
-                inputs[i].transform.GetChild(2).GetComponent<Image>().enabled = true; //color icon enabled
-            } else {
-                inputs[i].transform.GetChild(1).GetComponent<Image>().enabled = true; //bw icon disabled
-                inputs[i].transform.GetChild(2).GetComponent<Image>().enabled = false; //color icon enabled
+                if (LMnames[i] == LMinputs[i].name)
+                {
+                    LMinputs[i].transform.GetChild(1).GetComponent<Image>().enabled = false; //bw icon disabled
+                    LMinputs[i].transform.GetChild(2).GetComponent<Image>().enabled = true; //color icon enabled
+                } else {
+                    LMinputs[i].transform.GetChild(1).GetComponent<Image>().enabled = true; //bw icon disabled
+                    LMinputs[i].transform.GetChild(2).GetComponent<Image>().enabled = false; //color icon enabled
+                }
+                
+                if (global.GetComponent<Global>().currentGS == Global.GameState.Selecting && LMnames[i] == LMinputs[i].name && input_num < 3) //activating buttons
+                {
+                    LMinputs[i].transform.GetChild(3).GetComponent<Image>().enabled = true;
+                } else {
+                    LMinputs[i].transform.GetChild(3).GetComponent<Image>().enabled = false;
+                }
             }
-            
-            if (global.GetComponent<Global>().currentGS == Global.GameState.Selecting && names[i] == inputs[i].name && input_num < 3) //ativating buttons
+        }
+        if (global.GetComponent<Global>().currentUIS == Global.UIState.SmallMap1) //SM1
+        {
+            for (int i = 0; i < SM1inputs.Length; i++)
             {
-                inputs[i].transform.GetChild(3).GetComponent<Image>().enabled = true;
-            } else {
-                inputs[i].transform.GetChild(3).GetComponent<Image>().enabled = false;
+                if (SM1names[i] == SM1inputs[i].name)
+                {
+                    SM1inputs[i].transform.GetChild(1).GetComponent<Image>().enabled = false; //bw icon disabled
+                    SM1inputs[i].transform.GetChild(2).GetComponent<Image>().enabled = true; //color icon enabled
+                } else {
+                    SM1inputs[i].transform.GetChild(1).GetComponent<Image>().enabled = true; //bw icon disabled
+                    SM1inputs[i].transform.GetChild(2).GetComponent<Image>().enabled = false; //color icon enabled
+                }
+                
+                if (global.GetComponent<Global>().currentGS == Global.GameState.Selecting && SM1names[i] == SM1inputs[i].name && input_num < 3) //activating buttons
+                {
+                    SM1inputs[i].transform.GetChild(3).GetComponent<Image>().enabled = true;
+                } else {
+                    SM1inputs[i].transform.GetChild(3).GetComponent<Image>().enabled = false;
+                }
+            }
+        }
+        if (global.GetComponent<Global>().currentUIS == Global.UIState.SmallMap2) //SM2
+        {
+            for (int i = 0; i < SM2inputs.Length; i++)
+            {
+                if (SM2names[i] == SM2inputs[i].name)
+                {
+                    SM2inputs[i].transform.GetChild(1).GetComponent<Image>().enabled = false; //bw icon disabled
+                    SM2inputs[i].transform.GetChild(2).GetComponent<Image>().enabled = true; //color icon enabled
+                } else {
+                    SM2inputs[i].transform.GetChild(1).GetComponent<Image>().enabled = true; //bw icon disabled
+                    SM2inputs[i].transform.GetChild(2).GetComponent<Image>().enabled = false; //color icon enabled
+                }
+                
+                if (global.GetComponent<Global>().currentGS == Global.GameState.Selecting && SM2names[i] == SM2inputs[i].name && input_num < 3) //activating buttons
+                {
+                    SM2inputs[i].transform.GetChild(3).GetComponent<Image>().enabled = true;
+                } else {
+                    SM2inputs[i].transform.GetChild(3).GetComponent<Image>().enabled = false;
+                }
             }
         }
     }

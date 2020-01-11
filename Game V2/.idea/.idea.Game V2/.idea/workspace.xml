@@ -34,6 +34,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Managers/PuzzleHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Managers/MapController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Plugins/Ink/Example/Scripts/BasicInkExample.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Plugins/Ink/Example/Scripts/Editor/BasicInkExampleEditor.cs" root0="FORCE_HIGHLIGHTING" />
@@ -49,12 +50,13 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Assets/Scripts/Info.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Global.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/StoryController.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/MapController.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Controls/Walking.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Managers/MenuController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CameraFollow.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/StoryController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Controls/Walking.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/PuzzleHandler.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/MapController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Global.cs" />
       </list>
     </option>
   </component>
@@ -123,6 +125,9 @@
       <workItem from="1576101148122" duration="1332000" />
       <workItem from="1576283867147" duration="1286000" />
       <workItem from="1576285868778" duration="1411000" />
+      <workItem from="1578427605617" duration="2086000" />
+      <workItem from="1578600615724" duration="14563000" />
+      <workItem from="1578757435079" duration="6857000" />
     </task>
     <servers />
   </component>

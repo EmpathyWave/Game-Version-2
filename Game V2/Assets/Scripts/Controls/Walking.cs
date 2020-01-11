@@ -73,8 +73,8 @@ public class Walking : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.M))
         {
-            global.GetComponent<Global>().currentGS = Global.GameState.MViewing;
-            global.GetComponent<Global>().prevGS = Global.GameState.MViewing;
+            global.GetComponent<Global>().currentGS = Global.GameState.Viewing;
+            global.GetComponent<Global>().prevGS = Global.GameState.Viewing;
         }
 
         if (Input.GetKeyUp(KeyCode.D))
@@ -93,6 +93,7 @@ public class Walking : MonoBehaviour
         {
             global.GetComponent<Global>().currentGS = Global.GameState.Selecting;
             global.GetComponent<Global>().prevGS = Global.GameState.Selecting;
+            global.GetComponent<Global>().currentUIS = Global.UIState.LargeMap;
             map.GetComponent<MapController>().current_char = other.tag;
             story.GetComponent<StoryController>().SetKnot(other.tag, "Default_");
             

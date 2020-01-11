@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\Global.cs" />
     <Compile Include="Assets\Scripts\Managers\MapController.cs" />
     <Compile Include="Assets\Scripts\Managers\MenuController.cs" />
+    <Compile Include="Assets\Scripts\Managers\PuzzleHandler.cs" />
     <Compile Include="Assets\Scripts\Managers\StoryController.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/jwana/Desktop/Everything Folder/Repositories/Game Version 2/Game V2/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

@@ -9,6 +9,10 @@ TagManager:
   - Isabella
   - TheBees
   - Festival
+  - NewTown
+  - OldTown
+  - Dozza
+  - FlowerPots
   layers:
   - Default
   - TransparentFX

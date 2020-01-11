@@ -105,6 +105,7 @@
           <e p="Managers" t="Include">
             <e p="MapController.cs" t="Include" />
             <e p="MenuController.cs" t="Include" />
+            <e p="PuzzleHandler.cs" t="Include" />
             <e p="StoryController.cs" t="Include" />
           </e>
         </e>

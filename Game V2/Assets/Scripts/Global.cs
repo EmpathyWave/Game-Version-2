@@ -6,6 +6,7 @@ public class Global : MonoBehaviour
 //keeps track of the game state and other global variables that need to stay constant in the scene
 //part of the game manager
 {
+   public static Global me;
 
    //STATE MACHINES
    public enum GameState //Dom State
@@ -20,7 +21,7 @@ public class Global : MonoBehaviour
       Walking, //default 
       LargeMap,
       Conflicts,
-      You,
+      ID,
       SmallMap1,
       SmallMap2
    };
@@ -32,8 +33,11 @@ public class Global : MonoBehaviour
    
    //PUZZLE TRACKER
    public bool puzzle1 = false;
-   
-   
+
+   void Awake()
+   {
+      me = this;
+   }
    void Start() //defaulting
    {
       currentGS = GameState.Walking;

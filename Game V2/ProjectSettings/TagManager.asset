@@ -4,15 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - SleepyDave
-  - Giovanni
-  - Isabella
   - TheBees
-  - Festival
   - NewTown
   - OldTown
-  - Dozza
   - FlowerPots
+  - DanniDepasquale
+  - Dave
+  - Mrs.Riccobono
   layers:
   - Default
   - TransparentFX

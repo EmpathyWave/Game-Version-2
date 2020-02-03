@@ -19,6 +19,8 @@ public class Walking : MonoBehaviour
     
     public Rigidbody2D rb;
 
+    private bool talk = false;
+
     void Start()
     {
         speed = minSpeed;
@@ -57,13 +59,13 @@ public class Walking : MonoBehaviour
 
     void Controls()
     {
-        if (Input.GetKey(KeyCode.A)) //left
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) //left
         {
             //speed += scale;
             rb.constraints = RigidbodyConstraints2D.None;
             rb.velocity = transform.TransformVector(-1,0,0) * speed;
         } 
-        else if (Input.GetKey(KeyCode.D)) //right
+        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) //right
         {
             rb.constraints = RigidbodyConstraints2D.None;
             rb.velocity = transform.TransformVector(1, 0, 0) * speed;
@@ -71,17 +73,19 @@ public class Walking : MonoBehaviour
             //rb.velocity = Vector2.right * speed * Time.deltaTime;
         }
 
-        if (Input.GetKeyUp(KeyCode.M))
+        if (Input.GetKey(KeyCode.J))
         {
-            global.GetComponent<Global>().currentGS = Global.GameState.Viewing;
             global.GetComponent<Global>().prevGS = Global.GameState.Viewing;
+            global.GetComponent<Global>().currentUIS = Global.UIState.LargeMap;
+            global.GetComponent<Global>().currentGS = Global.GameState.Viewing;
+            
         }
 
-        if (Input.GetKeyUp(KeyCode.D))
+        if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.RightArrow))
         {
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
         }
-        else if(Input.GetKeyUp(KeyCode.A))
+        else if(Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow))
         {
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
         }
@@ -89,14 +93,24 @@ public class Walking : MonoBehaviour
     
     private void OnTriggerStay2D(Collider2D other) //is anything entering my trigger?
     {
-        if (Input.GetKeyUp(KeyCode.E))
+        if (other.tag == "Dave" || 
+            other.tag == "TheBees" ||
+            other.tag == "Mrs.Riccobono")
+        {
+            
+            talk = true;
+        }
+        
+        if(talk && Input.GetKeyUp(KeyCode.E))
         {
             global.GetComponent<Global>().currentGS = Global.GameState.Selecting;
             global.GetComponent<Global>().prevGS = Global.GameState.Selecting;
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
             global.GetComponent<Global>().currentUIS = Global.UIState.LargeMap;
             map.GetComponent<MapController>().current_char = other.tag;
             story.GetComponent<StoryController>().SetKnot(other.tag, "Default_");
             
+
         }
     }
 }

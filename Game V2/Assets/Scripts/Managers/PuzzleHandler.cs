@@ -9,9 +9,8 @@ public class PuzzleHandler : MonoBehaviour
     public GameObject global;
     
     //solutions
-    private string puzzle1 = "Dave.TheBees&Mrs.Riccobono";
-    
-    
+    private string puzzle1 = "Dave."; //fuckkkk
+
     public void Start()
     {
         global = GameObject.Find("Game Manager");

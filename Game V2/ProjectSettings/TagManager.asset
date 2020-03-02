@@ -5,12 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - TheBees
-  - NewTown
-  - OldTown
-  - FlowerPots
-  - DanniDepasquale
-  - Dave
-  - Mrs.Riccobono
+  - CharacterName
+  - DanniRiccobono
+  - EmiliaCardero
+  - LuccaRomana
+  - FrancisRiccobono
+  - EmiliaCardello
   layers:
   - Default
   - TransparentFX
@@ -47,4 +47,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 1287292297
+    locked: 0
+  - name: Midground
+    uniqueID: 2647720721
+    locked: 0
+  - name: Player
+    uniqueID: 3807148687
+    locked: 0
+  - name: Frontground
+    uniqueID: 3975927319
     locked: 0

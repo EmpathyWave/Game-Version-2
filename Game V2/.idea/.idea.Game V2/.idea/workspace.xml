@@ -51,12 +51,12 @@
       <list>
         <option value="$PROJECT_DIR$/Assets/Scripts/Info.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Managers/MenuController.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Global.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Controls/Walking.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Managers/PuzzleHandler.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CameraFollow.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/MapController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Managers/StoryController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Global.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/MapController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Controls/Walking.cs" />
       </list>
     </option>
   </component>
@@ -134,6 +134,10 @@
       <workItem from="1579633614929" duration="7466000" />
       <workItem from="1580153345423" duration="3439000" />
       <workItem from="1580234528043" duration="4939000" />
+      <workItem from="1581024448999" duration="163000" />
+      <workItem from="1583090229527" duration="6244000" />
+      <workItem from="1583112442799" duration="9479000" />
+      <workItem from="1583132047885" duration="11000" />
     </task>
     <servers />
   </component>

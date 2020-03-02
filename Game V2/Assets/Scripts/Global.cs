@@ -20,16 +20,25 @@ public class Global : MonoBehaviour
    {
       Walking, //default 
       LargeMap,
-      Conflicts,
+      Timeline,
       ID,
-      SmallMap1,
-      SmallMap2
+      Hill,
+      Docks,
+      Piazza
+   };
+   
+   public enum LocationState 
+   {
+      Hill,
+      Docks,
+      Piazza
    };
    
    public GameState currentGS;
    public GameState prevGS; 
    public UIState currentUIS;
-   
+
+   public LocationState currentLocation;
    
    //PUZZLE TRACKER
    public bool puzzle1 = false;

@@ -93,9 +93,8 @@ public class Walking : MonoBehaviour
     
     private void OnTriggerStay2D(Collider2D other) //is anything entering my trigger?
     {
-        if (other.tag == "Dave" || 
-            other.tag == "TheBees" ||
-            other.tag == "Mrs.Riccobono")
+        if (other.tag == "EmiliaCardello" || 
+            other.tag == "LuccaRomana")
         {
             
             talk = true;

@@ -4,43 +4,52 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Internal.UIElements;
 using UnityEngine.UI;
-public class MapController : MonoBehaviour //handles all the UI elements when navigating the map and conflicts and even the story
+
+public class MapController : MonoBehaviour //handles all the UI elements when navigating the map and Timeline and even the story
 {
+
+    public GameObject canvas;
+    
     [Header("Tabs")] 
     public GameObject mapT;
-    public GameObject rumorsT;
+    public GameObject timeT;
     public GameObject idT;
 
 
     [Header("Large Map")]
-    public GameObject LMparent; //parent object to Large Map
-    public GameObject[] LMinputs; //things NOT THE INPUT FIELDS
-    public string [] LMnames; //hard code later!!
-    public Button[] LMbuttons;
-    
-    
-    [Header("Conflicts")]
-    public GameObject Cparent; //parent object to Conflicts
-    public Button[] Cbuttons;
+    public GameObject lmParent; //parent object to Large Map
+
+
+    [Header("Timeline")]
+    public GameObject tParent; //parent object to Timeline
+    public GameObject[] tInputs; //character
+    public string [] tNames; 
+    public Button[] tButtons;
     
     
     [Header("ID")]
-    public GameObject IDparent; //parent object to ID
-    public Button[] IDbuttons;
+    public GameObject idParent; //parent object to ID
+    public Button[] idButtons;
    
     
-    [Header("Small Map 1")]
-    public GameObject SM1parent; //parent object to Small Map 1
-    public GameObject [] SM1inputs; //things NOT THE INPUT FIELDS
-    public string [] SM1names; //name storage
-    public Button[] SM1buttons;
+    [Header("Hill")]
+    public GameObject hParent; //parent object to Small Map 1
+    public GameObject [] hInputs; //character
+    public string [] hNames; //name storage
+    public Button[] hButtons;
     
     /*
-    [Header("Small Map 2")]
-    public GameObject SM2parent; //parent object to Small Map 2
-    public GameObject [] SM2inputs;
-    public string [] SM2names; //hard code later!!
-    public Button [] SM2buttons;
+    [Header("Docks")]
+    public GameObject dParent; //parent object to Small Map 1
+    public GameObject [] dInputs; //parent of the input fields NOT THE INPUT FIELDS
+    public string [] dNames; //name storage
+    public Button[] dButtons;
+    
+    [Header("Piazza")]
+    public GameObject pParent; //parent object to Small Map 1
+    public GameObject [] pInputs; //parent of the input fields NOT THE INPUT FIELDS
+    public string [] pNames; //name storage
+    public Button[] pButtons;
     */
     
     //inkle / story 
@@ -55,7 +64,7 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
     public int input_num = 0; //checks how many inputs have been selected
     
     //managers and globals
-    public GameObject global;
+    //public GameObject global;
     public GameObject story;
     public GameObject girl;
     
@@ -94,131 +103,114 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
     
     //____________________________________________________________________________________________________________________________________________________UI FUNCTIONS
     //UI FUNCTIONS____________________________________________________________________________________________________________________________________________________
-    void UIActivate() //activates the corresponding UI elements
+    void UIActivate() //activates the corresponding UI elements 
     {
+        canvas.SetActive(true);
         mapT.SetActive((true));
-        rumorsT.SetActive((true));
+        timeT.SetActive((true));
         idT.SetActive((true));
         
-        if (Global.me.currentUIS == Global.UIState.LargeMap) 
+        if (Global.me.currentUIS == Global.UIState.LargeMap) //activating large map UI
         {
-            LMparent.SetActive(true);
+            lmParent.SetActive(true);
+            
+            tParent.SetActive(false);
+            for (int i = 0; i < tButtons.Length; i++) {
+                tButtons[i].gameObject.SetActive(false); }
+            
+            idParent.SetActive(false);
+            for (int i = 0; i < idButtons.Length; i++) {
+                idButtons[i].gameObject.SetActive(false); }
+            
+            hParent.SetActive(false);
+            for (int i = 0; i < hButtons.Length; i++) {
+                hButtons[i].gameObject.SetActive(false); }
+            
+        }
+        if (Global.me.currentUIS == Global.UIState.Timeline) //activating Timeline UI
+        {
+            tParent.SetActive(true);
             NameCheck();
             if (Global.me.currentGS == Global.GameState.Selecting)
             {
-                for (int i = 0; i < LMbuttons.Length; i++) {
-                    LMbuttons[i].gameObject.SetActive(true); }
-            }
-            
-            Cparent.SetActive(false);
-            for (int i = 0; i < Cbuttons.Length; i++) {
-                Cbuttons[i].gameObject.SetActive(false); }
-            IDparent.SetActive(false);
-            for (int i = 0; i < IDbuttons.Length; i++) {
-                IDbuttons[i].gameObject.SetActive(false); }
-            SM1parent.SetActive(false);
-            for (int i = 0; i < SM1buttons.Length; i++) {
-                SM1buttons[i].gameObject.SetActive(false); }
-            
-            //SM2parent.SetActive(false);
-        }
-        if (Global.me.currentUIS == Global.UIState.Conflicts)
-        {
-            Cparent.SetActive(true);
-            if (Global.me.currentGS == Global.GameState.Selecting)
-            {
-                for (int i = 0; i < Cbuttons.Length; i++)
-                { Cbuttons[i].gameObject.SetActive(true); }
+                for (int i = 0; i < tButtons.Length; i++)
+                { tButtons[i].gameObject.SetActive(true); }
             }
 
-            LMparent.SetActive(false);
-            for (int i = 0; i < LMbuttons.Length; i++) {
-                LMbuttons[i].gameObject.SetActive(false); }
-            IDparent.SetActive(false);
-            for (int i = 0; i < IDbuttons.Length; i++) {
-                IDbuttons[i].gameObject.SetActive(false); }
-            SM1parent.SetActive(false);
-            for (int i = 0; i < SM1buttons.Length; i++) {
-                SM1buttons[i].gameObject.SetActive(false); }
+            lmParent.SetActive(false);
+
+            idParent.SetActive(false);
+            for (int i = 0; i < idButtons.Length; i++) {
+                idButtons[i].gameObject.SetActive(false); }
+            
+            hParent.SetActive(false);
+            for (int i = 0; i < hButtons.Length; i++) {
+                hButtons[i].gameObject.SetActive(false); }
             
             //SM2parent.SetActive(false);
         }
-        if (Global.me.currentUIS == Global.UIState.ID)
+        if (Global.me.currentUIS == Global.UIState.ID) //activating ID UI
         {
-            IDparent.SetActive(true);
+            idParent.SetActive(true);
             if (Global.me.currentGS == Global.GameState.Selecting)
             {
-                for (int i = 0; i < IDbuttons.Length; i++) {
-                    IDbuttons[i].gameObject.SetActive(true); }
+                for (int i = 0; i < idButtons.Length; i++) {
+                    idButtons[i].gameObject.SetActive(true); }
             }
             
-            LMparent.SetActive(false);
-            for (int i = 0; i < LMbuttons.Length; i++) {
-                LMbuttons[i].gameObject.SetActive(false); }
-            Cparent.SetActive(false);
-            for (int i = 0; i < Cbuttons.Length; i++) {
-                Cbuttons[i].gameObject.SetActive(false); }
-            SM1parent.SetActive(false);
-            for (int i = 0; i < SM1buttons.Length; i++) {
-                SM1buttons[i].gameObject.SetActive(false); }
-            //SM2parent.SetActive(false);
+            lmParent.SetActive(false);
+
+            tParent.SetActive(false);
+            for (int i = 0; i < tButtons.Length; i++) {
+                tButtons[i].gameObject.SetActive(false); }
+            
+            hParent.SetActive(false);
+            for (int i = 0; i < hButtons.Length; i++) {
+                hButtons[i].gameObject.SetActive(false); }
+            
         }
-        if (Global.me.currentUIS == Global.UIState.SmallMap1)
+        if (Global.me.currentUIS == Global.UIState.Hill) //activating hill map UI
         {
-            SM1parent.SetActive(true);
+            hParent.SetActive(true);
             NameCheck();
             if (Global.me.currentGS == Global.GameState.Selecting)
             {
-                for (int i = 0; i < SM1buttons.Length; i++) {
-                    SM1buttons[i].gameObject.SetActive(true); }
+                for (int i = 0; i < hButtons.Length; i++) {
+                    hButtons[i].gameObject.SetActive(true); }
             }
             
-            LMparent.SetActive(false);
-            for (int i = 0; i < LMbuttons.Length; i++) {
-                LMbuttons[i].gameObject.SetActive(false); }
-            Cparent.SetActive(false);
-            for (int i = 0; i < Cbuttons.Length; i++) {
-                Cbuttons[i].gameObject.SetActive(false); }
-            IDparent.SetActive(false);
-            for (int i = 0; i < IDbuttons.Length; i++) {
-                IDbuttons[i].gameObject.SetActive(false); }
+            lmParent.SetActive(false);
+            tParent.SetActive(false);
+            for (int i = 0; i < tButtons.Length; i++) {
+                tButtons[i].gameObject.SetActive(false); }
+            idParent.SetActive(false);
+            for (int i = 0; i < idButtons.Length; i++) {
+                idButtons[i].gameObject.SetActive(false); }
             
             //SM2parent.SetActive(false);
         }
-        /*
-        if (Global.me.currentUIS == Global.UIState.SmallMap2)
-        {
-            //SM2parent.SetActive(true);
-            NameCheck();
-            
-            LMparent.SetActive(false);
-            Cparent.SetActive(false);
-            IDparent.SetActive(false);
-            SM1parent.SetActive(false);
-        }
-        */
+        
     }
 
     void UIDeactivate() //defaults to walking on everything
     {
+        canvas.SetActive(false);
         mapT.SetActive(false);
-        rumorsT.SetActive(false);
+        timeT.SetActive(false);
         idT.SetActive(false);
         
-        LMparent.SetActive(false);
-        Cparent.SetActive(false);
-        IDparent.SetActive(false);
-        SM1parent.SetActive(false);
+        lmParent.SetActive(false);
+        tParent.SetActive(false);
+        idParent.SetActive(false);
+        hParent.SetActive(false);
         //SM2parent.SetActive(false);
         
-        for (int i = 0; i < Cbuttons.Length; i++) {
-            LMbuttons[i].gameObject.SetActive(false); }
-        for (int i = 0; i < Cbuttons.Length; i++) {
-            Cbuttons[i].gameObject.SetActive(false); }
-        for (int i = 0; i < Cbuttons.Length; i++) {
-            IDbuttons[i].gameObject.SetActive(false); }
-        for (int i = 0; i < Cbuttons.Length; i++) {
-            SM1buttons[i].gameObject.SetActive(false); }
+        for (int i = 0; i < tButtons.Length; i++) {
+            tButtons[i].gameObject.SetActive(false); }
+        for (int i = 0; i < tButtons.Length; i++) {
+            idButtons[i].gameObject.SetActive(false); }
+        for (int i = 0; i < hButtons.Length; i++) {
+            hButtons[i].gameObject.SetActive(false); }
         
         d_box.SetActive(false);
         q_box.SetActive(false);
@@ -226,7 +218,7 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
     
     //_____________________________________________________________________________________________________________________________________________________CONTROLS
     //CONTROLS ____________________________________________________________________________________________________________________________________________________
-    void VControls()
+    void VControls() //viewing controls
     {
         if (Input.GetKey(KeyCode.Escape)) // changes into walking 
         {
@@ -244,7 +236,7 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
         }
     }
 
-    void SControls() 
+    void SControls() //selecting controls
     {
         q_box.SetActive(true);
         d_box.SetActive(true);
@@ -256,32 +248,26 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
             //filters out the spaces for input into Inkle
             story.GetComponent<StoryController>().SetKnot(current_char, story.GetComponent<StoryController>().Sort(story_input1,story_input2));
             q_box.GetComponentInChildren<Text>().text = "";
-            if (Global.me.currentUIS == Global.UIState.LargeMap)
+
+            if (Global.me.currentUIS == Global.UIState.Timeline)
             {
-                for (int i = 0; i < LMbuttons.Length; i++) //resets buttons
+                for (int i = 0; i < tButtons.Length; i++) //resets buttons
                 {
-                    LMbuttons[i].gameObject.SetActive(true);
-                }
-            }
-            if (Global.me.currentUIS == Global.UIState.Conflicts)
-            {
-                for (int i = 0; i < Cbuttons.Length; i++) //resets buttons
-                {
-                    Cbuttons[i].gameObject.SetActive(true);
+                    tButtons[i].gameObject.SetActive(true);
                 }
             }
             if (Global.me.currentUIS == Global.UIState.ID)
             {
-                for (int i = 0; i < IDbuttons.Length; i++) //resets buttons
+                for (int i = 0; i < idButtons.Length; i++) //resets buttons
                 {
-                    IDbuttons[i].gameObject.SetActive(true);
+                    idButtons[i].gameObject.SetActive(true);
                 }
             }
-            if (Global.me.currentUIS == Global.UIState.SmallMap1)
+            if (Global.me.currentUIS == Global.UIState.Hill)
             {
-                for (int i = 0; i < SM1buttons.Length; i++) //resets buttons
+                for (int i = 0; i < hButtons.Length; i++) //resets buttons
                 {
-                    SM1buttons[i].gameObject.SetActive(true);
+                    hButtons[i].gameObject.SetActive(true);
                 }
             }
             /*
@@ -306,44 +292,28 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
             d_box.GetComponentInChildren<Text>().text = "";
             q_box.GetComponentInChildren<Text>().text = "";
             story_output = "";
-
-            if (Global.me.currentUIS == Global.UIState.LargeMap)
+            
+            if (Global.me.currentUIS == Global.UIState.Timeline)
             {
-                for (int i = 0; i < LMbuttons.Length; i++) //resets buttons
+                for (int i = 0; i < tButtons.Length; i++) //resets buttons
                 {
-                    LMbuttons[i].gameObject.SetActive(false);
-                }
-            }
-            if (Global.me.currentUIS == Global.UIState.Conflicts)
-            {
-                for (int i = 0; i < Cbuttons.Length; i++) //resets buttons
-                {
-                    Cbuttons[i].gameObject.SetActive(false); 
+                    tButtons[i].gameObject.SetActive(false); 
                 }
             }
             if (Global.me.currentUIS == Global.UIState.ID)
             {
-                for (int i = 0; i < IDbuttons.Length; i++) //resets buttons
+                for (int i = 0; i < idButtons.Length; i++) //resets buttons
                 {
-                    IDbuttons[i].gameObject.SetActive(false);
+                    idButtons[i].gameObject.SetActive(false);
                 }
             }
-            if (Global.me.currentUIS == Global.UIState.SmallMap1)
+            if (Global.me.currentUIS == Global.UIState.Hill)
             {
-                for (int i = 0; i < SM1buttons.Length; i++) //resets buttons
+                for (int i = 0; i < hButtons.Length; i++) //resets buttons
                 {
-                    SM1buttons[i].gameObject.SetActive(false); 
+                    hButtons[i].gameObject.SetActive(false); 
                 }
             }
-            /*
-            if (Global.me.currentUIS == Global.UIState.SmallMap2)
-            {
-                for (int i = 0; i < SM2buttons.Length; i++) //resets buttons
-                {
-                    SM2buttons[i].interactable = true;
-                }
-            }
-            */
             input_num = 0;
             //story.GetComponent<StoryController>().SetKnot(current_char, "Default_");
             Global.me.currentUIS = Global.UIState.Walking; //back to walking UI
@@ -359,21 +329,21 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
     {
         Global.me.currentUIS = Global.UIState.LargeMap;
     }
-    public void Conflicts()
+    public void Timeline()
     {
-        Global.me.currentUIS = Global.UIState.Conflicts;
+        Global.me.currentUIS = Global.UIState.Timeline;
     }
     public void ID()
     {
         Global.me.currentUIS = Global.UIState.ID;
     }
-    public void SmallMap1()
+    public void Hill()
     {
-        Global.me.currentUIS = Global.UIState.SmallMap1;
+        Global.me.currentUIS = Global.UIState.Hill;
     }
-    public void SmallMap2()
+    public void Docks()
     {
-        Global.me.currentUIS = Global.UIState.SmallMap2;
+        Global.me.currentUIS = Global.UIState.Docks;
     }
 
     //linked to button in order to update the textbox
@@ -406,49 +376,40 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
     {
         if (Input.GetKey(KeyCode.Tab))
         {
-            if (Global.me.currentUIS == Global.UIState.LargeMap) //LM
+            if (Global.me.currentUIS == Global.UIState.Timeline) //timeline
             {
-                for (int i = 0; i < LMinputs.Length; i++)
+                for (int i = 0; i < tInputs.Length; i++)
                 {
-                    LMinputs[i].transform.GetChild(0).GetComponent<InputField>().DeactivateInputField();
-                    LMnames[i]= LMinputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text; //assigns the text that is being inputted to the larger name
+                    tInputs[i].transform.GetChild(0).GetComponent<InputField>().DeactivateInputField();
+                    tNames[i]= tInputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text; //assigns the text that is being inputted to the larger name
                 }
             }
-            if (Global.me.currentUIS == Global.UIState.SmallMap1) //SM1
+            if (Global.me.currentUIS == Global.UIState.Hill) //SM1
             {
-                for (int i = 0; i < SM1inputs.Length; i++)
+                for (int i = 0; i < hInputs.Length; i++)
                 {
-                    SM1inputs[i].transform.GetChild(0).GetComponent<InputField>().DeactivateInputField();
-                    SM1names[i]= SM1inputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text; //assigns the text that is being inputted to the larger name
+                    hInputs[i].transform.GetChild(0).GetComponent<InputField>().DeactivateInputField();
+                    hNames[i]= hInputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text; //assigns the text that is being inputted to the larger name
                 }
             }
-            /*
-            if (Global.me.currentUIS == Global.UIState.SmallMap2) //SM2
-            {
-                for (int i = 0; i < SM2inputs.Length; i++)
-                {
-                    SM2inputs[i].transform.GetChild(0).GetComponent<InputField>().DeactivateInputField();
-                    SM2names[i]= SM2inputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
-                }
-            }
-            */
+            
         }
     }
 
     public void Save() // saving the text once the input field is called
     {
-        if (Global.me.currentUIS == Global.UIState.LargeMap) //LM
+        if (Global.me.currentUIS == Global.UIState.Timeline) //SM1
         {
-            for (int i = 0; i < LMinputs.Length; i++)
+            for (int i = 0; i < tInputs.Length; i++)
             {
-                LMnames[i] = LMinputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
+                tNames[i] = tInputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
             }
         }
-        if (Global.me.currentUIS == Global.UIState.SmallMap1) //SM1
+        if (Global.me.currentUIS == Global.UIState.Hill) //SM1
         {
-            for (int i = 0; i < SM1inputs.Length; i++)
+            for (int i = 0; i < hInputs.Length; i++)
             {
-                SM1names[i] = SM1inputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
+                hNames[i] = hInputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
             }
         }
         /*
@@ -485,73 +446,53 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
 
     //_____________________________________________________________________________________________________________________________________________WORKER FUNCTIONS
     //WORKER FUNCTIONS ____________________________________________________________________________________________________________________________________________
-    void NameCheck() 
+    void NameCheck() //checking if the names and inputs are correct and displaying the correct info if they are //called whcn acvtivating the UI
     {
-        if (Global.me.currentUIS == Global.UIState.LargeMap) //LM
+
+        if (Global.me.currentUIS == Global.UIState.Timeline)
         {
-            for (int i = 0; i < LMinputs.Length; i++)
+            for (int i = 0; i < tInputs.Length; i++)
             {
-                if (LMnames[i] == LMinputs[i].name)
+                if (tNames[i] == tInputs[i].name)
                 {
-                    LMinputs[i].transform.GetChild(1).GetComponent<Image>().enabled = false; //bw icon disabled
-                    LMinputs[i].transform.GetChild(2).GetComponent<Image>().enabled = true; //color icon enabled
+                    //tInputs[i].transform.GetChild(1).GetComponent<Image>().enabled = false; //bw icon disabled
+                    //tInputs[i].transform.GetChild(2).GetComponent<Image>().enabled = true; //color icon enabled
                 } else {
-                    LMinputs[i].transform.GetChild(1).GetComponent<Image>().enabled = true; //bw icon disabled
-                    LMinputs[i].transform.GetChild(2).GetComponent<Image>().enabled = false; //color icon enabled
+                    //tInputs[i].transform.GetChild(1).GetComponent<Image>().enabled = true; //bw icon disabled
+                    //tInputs[i].transform.GetChild(2).GetComponent<Image>().enabled = false; //color icon enabled
                 }
                 
-                if (Global.me.currentGS == Global.GameState.Selecting && LMnames[i] == LMinputs[i].name) //activating buttons
+                if (Global.me.currentGS == Global.GameState.Selecting && tNames[i] == tInputs[i].name) //activating buttons
                 {
-                    LMinputs[i].transform.GetChild(3).GetComponent<Button>().interactable = true;
+                    tInputs[i].transform.GetChild(2).GetComponent<Image>().enabled = true;
                 } else {
-                    LMinputs[i].transform.GetChild(3).GetComponent<Button>().interactable = false;
+                    tInputs[i].transform.GetChild(2).GetComponent<Image>().enabled = false;
                 }
             }
         }
-        if (Global.me.currentUIS == Global.UIState.SmallMap1) //SM1
+        
+        if (Global.me.currentUIS == Global.UIState.Hill) //Hill
         {
-            for (int i = 0; i < SM1inputs.Length; i++)
+            for (int i = 0; i < hInputs.Length; i++)
             {
-                if (SM1names[i] == SM1inputs[i].name)
+                if (hNames[i] == hInputs[i].name)
                 {
-                    SM1inputs[i].transform.GetChild(1).GetComponent<Image>().enabled = false; //bw icon disabled
-                    SM1inputs[i].transform.GetChild(2).GetComponent<Image>().enabled = true; //color icon enabled
+                    hInputs[i].transform.GetChild(1).GetComponent<Image>().enabled = false; //bw icon disabled
+                    hInputs[i].transform.GetChild(2).GetComponent<Image>().enabled = true; //color icon enabled
                 } else {
-                    SM1inputs[i].transform.GetChild(1).GetComponent<Image>().enabled = true; //bw icon disabled
-                    SM1inputs[i].transform.GetChild(2).GetComponent<Image>().enabled = false; //color icon enabled
+                    hInputs[i].transform.GetChild(1).GetComponent<Image>().enabled = true; //bw icon disabled
+                    hInputs[i].transform.GetChild(2).GetComponent<Image>().enabled = false; //color icon enabled
                 }
                 
-                if (Global.me.currentGS == Global.GameState.Selecting && SM1names[i] == SM1inputs[i].name) //activating buttons
+                if (Global.me.currentGS == Global.GameState.Selecting && hNames[i] == hInputs[i].name) //activating buttons
                 {
-                    SM1inputs[i].transform.GetChild(3).GetComponent<Image>().enabled = true;
+                    hInputs[i].transform.GetChild(3).GetComponent<Image>().enabled = true;
                 } else {
-                    SM1inputs[i].transform.GetChild(3).GetComponent<Image>().enabled = false;
+                    hInputs[i].transform.GetChild(3).GetComponent<Image>().enabled = false;
                 }
             }
         }
-        /*
-        if (Global.me.currentUIS == Global.UIState.SmallMap2) //SM2
-        {
-            for (int i = 0; i < SM2inputs.Length; i++)
-            {
-                if (SM2names[i] == SM2inputs[i].name)
-                {
-                    SM2inputs[i].transform.GetChild(1).GetComponent<Image>().enabled = false; //bw icon disabled
-                    SM2inputs[i].transform.GetChild(2).GetComponent<Image>().enabled = true; //color icon enabled
-                } else {
-                    SM2inputs[i].transform.GetChild(1).GetComponent<Image>().enabled = true; //bw icon disabled
-                    SM2inputs[i].transform.GetChild(2).GetComponent<Image>().enabled = false; //color icon enabled
-                }
-                
-                if (Global.me.currentGS == Global.GameState.Selecting && SM2names[i] == SM2inputs[i].name && input_num < 3) //activating buttons
-                {
-                    SM2inputs[i].transform.GetChild(3).GetComponent<Image>().enabled = true;
-                } else {
-                    SM2inputs[i].transform.GetChild(3).GetComponent<Image>().enabled = false;
-                }
-            }
-        }
-        */
+        
     }
 }
 

@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\Controls\Editing.cs" />
     <Compile Include="Assets\Scripts\Controls\Walking.cs" />
     <Compile Include="Assets\Scripts\Global.cs" />
+    <Compile Include="Assets\Scripts\Managers\ButtonController.cs" />
     <Compile Include="Assets\Scripts\Managers\MapController.cs" />
     <Compile Include="Assets\Scripts\Managers\MenuController.cs" />
     <Compile Include="Assets\Scripts\Managers\PuzzleHandler.cs" />

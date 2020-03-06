@@ -23,7 +23,7 @@ public class Walking : MonoBehaviour
 
     void Start()
     {
-        speed = minSpeed;
+        //speed = minSpeed;
         rb = GetComponent<Rigidbody2D>();
         global = GameObject.Find("Game Manager");
         map = GameObject.Find("Map Manager");
@@ -108,8 +108,26 @@ public class Walking : MonoBehaviour
             global.GetComponent<Global>().currentUIS = Global.UIState.LargeMap;
             map.GetComponent<MapController>().current_char = other.tag;
             story.GetComponent<StoryController>().SetKnot(other.tag, "Default_");
+        }
+    }
+    
+    private void OnTriggerEnter2D(Collider2D other) //is anything entering my trigger?
+    {
+        if (other.tag == "EmiliaCardello" || 
+            other.tag == "LuccaRomana")
+        {
             
-
+            talk = true;
+        }
+        
+        if(talk && Input.GetKeyUp(KeyCode.E))
+        {
+            global.GetComponent<Global>().currentGS = Global.GameState.Selecting;
+            global.GetComponent<Global>().prevGS = Global.GameState.Selecting;
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            global.GetComponent<Global>().currentUIS = Global.UIState.LargeMap;
+            map.GetComponent<MapController>().current_char = other.tag;
+            story.GetComponent<StoryController>().SetKnot(other.tag, "Default_");
         }
     }
 }

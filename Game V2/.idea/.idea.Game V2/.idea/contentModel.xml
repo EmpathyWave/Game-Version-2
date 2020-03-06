@@ -103,6 +103,7 @@
           </e>
           <e p="Global.cs" t="Include" />
           <e p="Managers" t="Include">
+            <e p="ButtonController.cs" t="Include" />
             <e p="MapController.cs" t="Include" />
             <e p="MenuController.cs" t="Include" />
             <e p="PuzzleHandler.cs" t="Include" />

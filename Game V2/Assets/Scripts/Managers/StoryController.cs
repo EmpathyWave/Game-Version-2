@@ -10,7 +10,7 @@ public class StoryController : MonoBehaviour
     private Story story;
     public string currentKnot;
     public string output;
-    public GameObject global;
+    //public GameObject global;
     public GameObject map;
 
     void Awake()
@@ -20,7 +20,7 @@ public class StoryController : MonoBehaviour
 
     void Start()
     {
-        global = GameObject.Find("Game Manager");
+        //global = GameObject.Find("Game Manager");
         map = GameObject.Find("Map Manager");
     }
 
@@ -29,7 +29,7 @@ public class StoryController : MonoBehaviour
     {
         if (story.canContinue)
         {
-            if (global.GetComponent<Global>().currentGS == Global.GameState.Selecting)
+            if (Global.me.currentGS == Global.GameState.Selecting)
             {
                 output = story.Continue();
             }else { 
@@ -43,6 +43,7 @@ public class StoryController : MonoBehaviour
         Debug.Log(input);
         currentKnot = character + "." + input;
         story.ChoosePathString(currentKnot);
+        //map.d_box.GetComponentInChildren<Text>().text = story_output;
     }
 
     public string Sort(string one, string two)
@@ -52,7 +53,7 @@ public class StoryController : MonoBehaviour
         if (temp[1] != "")
         {
             Array.Sort(temp);
-            output = temp[0] + "&" + temp[1] + "_";
+            output = temp[0] + "0" + temp[1] + "_";
         }
         else
         {

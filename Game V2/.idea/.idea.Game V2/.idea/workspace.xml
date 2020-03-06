@@ -41,6 +41,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CameraFollow.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Controls/Editing.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Managers/StoryController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Managers/ButtonController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Plugins/Ink/InkRuntime/Story.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Global.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Managers/MenuController.cs" root0="FORCE_HIGHLIGHTING" />
@@ -50,13 +51,14 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Assets/Scripts/Info.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/MenuController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Managers/PuzzleHandler.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CameraFollow.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/StoryController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Global.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/MapController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/StoryController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Controls/Walking.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/MenuController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/MapController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/ButtonController.cs" />
       </list>
     </option>
   </component>
@@ -138,6 +140,8 @@
       <workItem from="1583090229527" duration="6244000" />
       <workItem from="1583112442799" duration="9479000" />
       <workItem from="1583132047885" duration="11000" />
+      <workItem from="1583164123746" duration="7707000" />
+      <workItem from="1583349827205" duration="4861000" />
     </task>
     <servers />
   </component>

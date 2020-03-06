@@ -56,8 +56,8 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
     [Header("Story")]
     public string current_char; //tracks which character you are currently talking to
     public bool asked = false; //check to see if the player has asked
-    string story_input1 = ""; //put into inkle system
-    string story_input2 = "";
+    public string story_input1 = ""; //put into inkle system
+    public string story_input2 = "";
     string story_output = ""; //what gets outputted
     public GameObject q_box;
     public GameObject d_box;
@@ -76,6 +76,7 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
     
     void Update()
     {
+        Debug.Log(d_box.GetComponentInChildren<Text>().text);
         //viewing the map
         if (Global.me.currentGS == Global.GameState.Viewing) 
         {
@@ -147,7 +148,7 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
             for (int i = 0; i < hButtons.Length; i++) {
                 hButtons[i].gameObject.SetActive(false); }
             
-            //SM2parent.SetActive(false);
+   
         }
         if (Global.me.currentUIS == Global.UIState.ID) //activating ID UI
         {
@@ -180,9 +181,11 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
             }
             
             lmParent.SetActive(false);
+            
             tParent.SetActive(false);
             for (int i = 0; i < tButtons.Length; i++) {
                 tButtons[i].gameObject.SetActive(false); }
+            
             idParent.SetActive(false);
             for (int i = 0; i < idButtons.Length; i++) {
                 idButtons[i].gameObject.SetActive(false); }
@@ -207,7 +210,7 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
         
         for (int i = 0; i < tButtons.Length; i++) {
             tButtons[i].gameObject.SetActive(false); }
-        for (int i = 0; i < tButtons.Length; i++) {
+        for (int i = 0; i < idButtons.Length; i++) {
             idButtons[i].gameObject.SetActive(false); }
         for (int i = 0; i < hButtons.Length; i++) {
             hButtons[i].gameObject.SetActive(false); }
@@ -243,42 +246,34 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
         NameCheck();
         
         //calls the Story Controller function
-        if (asked == true)
+        if (asked)
         {
             //filters out the spaces for input into Inkle
             story.GetComponent<StoryController>().SetKnot(current_char, story.GetComponent<StoryController>().Sort(story_input1,story_input2));
+            //Debug.Log(story.GetComponent<StoryController>().currentKnot);
             q_box.GetComponentInChildren<Text>().text = "";
-
-            if (Global.me.currentUIS == Global.UIState.Timeline)
-            {
+            
+            
                 for (int i = 0; i < tButtons.Length; i++) //resets buttons
                 {
                     tButtons[i].gameObject.SetActive(true);
+                    tButtons[i].gameObject.GetComponent<Button>().interactable = true; 
                 }
-            }
-            if (Global.me.currentUIS == Global.UIState.ID)
-            {
+            
                 for (int i = 0; i < idButtons.Length; i++) //resets buttons
                 {
                     idButtons[i].gameObject.SetActive(true);
+                    idButtons[i].gameObject.GetComponent<Button>().interactable = true; 
                 }
-            }
-            if (Global.me.currentUIS == Global.UIState.Hill)
-            {
+            
                 for (int i = 0; i < hButtons.Length; i++) //resets buttons
                 {
                     hButtons[i].gameObject.SetActive(true);
+                    hButtons[i].gameObject.GetComponent<Button>().interactable = true; 
                 }
-            }
-            /*
-            if (Global.me.currentUIS == Global.UIState.SmallMap2)
-            {
-                for (int i = 0; i < SM2buttons.Length; i++) //resets buttons
-                {
-                    SM2buttons[i].interactable = true;
-                }
-            }
-            */
+            
+
+            //d_box.GetComponentInChildren<Text>().text = story_output;
             input_num = 0;
             asked = false;
         }
@@ -293,27 +288,26 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
             q_box.GetComponentInChildren<Text>().text = "";
             story_output = "";
             
-            if (Global.me.currentUIS == Global.UIState.Timeline)
-            {
                 for (int i = 0; i < tButtons.Length; i++) //resets buttons
                 {
-                    tButtons[i].gameObject.SetActive(false); 
+                    tButtons[i].gameObject.GetComponent<Button>().interactable = true; 
+                    tButtons[i].gameObject.SetActive(false);
                 }
-            }
-            if (Global.me.currentUIS == Global.UIState.ID)
-            {
+            
+            
                 for (int i = 0; i < idButtons.Length; i++) //resets buttons
                 {
+                    idButtons[i].gameObject.GetComponent<Button>().interactable = true; 
                     idButtons[i].gameObject.SetActive(false);
                 }
-            }
-            if (Global.me.currentUIS == Global.UIState.Hill)
-            {
+            
+            
                 for (int i = 0; i < hButtons.Length; i++) //resets buttons
                 {
-                    hButtons[i].gameObject.SetActive(false); 
+                    hButtons[i].gameObject.GetComponent<Button>().interactable = true; 
+                    hButtons[i].gameObject.SetActive(false);
                 }
-            }
+            
             input_num = 0;
             //story.GetComponent<StoryController>().SetKnot(current_char, "Default_");
             Global.me.currentUIS = Global.UIState.Walking; //back to walking UI
@@ -370,6 +364,28 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
             button.interactable = false;
             input_num = 2;
         }
+        
+        if (input_num == 2)
+        {
+            for (int i = 0; i < tButtons.Length; i++) //resets buttons
+            {
+                tButtons[i].gameObject.GetComponent<Button>().interactable = false; 
+                //tButtons[i].gameObject.SetActive(false);
+            }
+            
+            
+            for (int i = 0; i < idButtons.Length; i++) //resets buttons
+            {
+                idButtons[i].gameObject.GetComponent<Button>().interactable = false; 
+                //idButtons[i].gameObject.SetActive(false);
+            }
+            
+            for (int i = 0; i < hButtons.Length; i++) //resets buttons
+            {
+                hButtons[i].gameObject.GetComponent<Button>().interactable = false; 
+                //hButtons[i].gameObject.SetActive(false);
+            }
+        }
     }
     
     public void Tab() // overrides the function of escape normally for input functions
@@ -384,7 +400,7 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
                     tNames[i]= tInputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text; //assigns the text that is being inputted to the larger name
                 }
             }
-            if (Global.me.currentUIS == Global.UIState.Hill) //SM1
+            if (Global.me.currentUIS == Global.UIState.Hill) //Hill
             {
                 for (int i = 0; i < hInputs.Length; i++)
                 {
@@ -398,29 +414,21 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
 
     public void Save() // saving the text once the input field is called
     {
-        if (Global.me.currentUIS == Global.UIState.Timeline) //SM1
+        if (Global.me.currentUIS == Global.UIState.Timeline) //timeline
         {
             for (int i = 0; i < tInputs.Length; i++)
             {
                 tNames[i] = tInputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
             }
         }
-        if (Global.me.currentUIS == Global.UIState.Hill) //SM1
+        if (Global.me.currentUIS == Global.UIState.Hill) //Hill
         {
             for (int i = 0; i < hInputs.Length; i++)
             {
                 hNames[i] = hInputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
             }
         }
-        /*
-        if (Global.me.currentUIS == Global.UIState.SmallMap2) //SM2
-        {
-            for (int i = 0; i < SM2inputs.Length; i++)
-            {
-                SM2names[i] = SM2inputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
-            }
-        }
-        */
+
     }
 
     public void End_Editing() //ending editing - switching to previous mode fixes problem of game states
@@ -483,13 +491,21 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
                     hInputs[i].transform.GetChild(1).GetComponent<Image>().enabled = true; //bw icon disabled
                     hInputs[i].transform.GetChild(2).GetComponent<Image>().enabled = false; //color icon enabled
                 }
-                
+
                 if (Global.me.currentGS == Global.GameState.Selecting && hNames[i] == hInputs[i].name) //activating buttons
                 {
                     hInputs[i].transform.GetChild(3).GetComponent<Image>().enabled = true;
                 } else {
                     hInputs[i].transform.GetChild(3).GetComponent<Image>().enabled = false;
                 }
+                
+                if (Global.me.currentGS == Global.GameState.Selecting && hNames[i] == "Uncle Lucca")
+                {
+                    hInputs[i].transform.GetChild(4).GetComponent<Image>().enabled = true;
+                } else if (Global.me.currentGS == Global.GameState.Selecting && hNames[i] == "Uncle Lucca"){
+                    hInputs[i].transform.GetChild(4).GetComponent<Image>().enabled = false;
+                } 
+                
             }
         }
         

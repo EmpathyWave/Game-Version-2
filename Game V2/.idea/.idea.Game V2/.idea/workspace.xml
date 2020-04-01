@@ -55,10 +55,10 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/CameraFollow.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Global.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Managers/StoryController.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Controls/Walking.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Managers/MenuController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Managers/MapController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Managers/ButtonController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Controls/Walking.cs" />
       </list>
     </option>
   </component>
@@ -142,6 +142,7 @@
       <workItem from="1583132047885" duration="11000" />
       <workItem from="1583164123746" duration="7707000" />
       <workItem from="1583349827205" duration="4861000" />
+      <workItem from="1585761376031" duration="945000" />
     </task>
     <servers />
   </component>

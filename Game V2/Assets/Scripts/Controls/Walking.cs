@@ -21,6 +21,8 @@ public class Walking : MonoBehaviour
 
     private bool talk = false;
 
+    private GameObject currentChar;
+
     void Start()
     {
         //speed = minSpeed;
@@ -89,16 +91,6 @@ public class Walking : MonoBehaviour
         {
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
         }
-    }
-    
-    private void OnTriggerStay2D(Collider2D other) //is anything entering my trigger?
-    {
-        if (other.tag == "EmiliaCardello" || 
-            other.tag == "LuccaRomana")
-        {
-            
-            talk = true;
-        }
         
         if(talk && Input.GetKeyUp(KeyCode.E))
         {
@@ -106,9 +98,20 @@ public class Walking : MonoBehaviour
             global.GetComponent<Global>().prevGS = Global.GameState.Selecting;
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
             global.GetComponent<Global>().currentUIS = Global.UIState.LargeMap;
-            map.GetComponent<MapController>().current_char = other.tag;
-            story.GetComponent<StoryController>().SetKnot(other.tag, "Default_");
+            map.GetComponent<MapController>().current_char = currentChar.tag;
+            story.GetComponent<StoryController>().SetKnot(currentChar.tag, "Default_");
         }
+    }
+    
+    private void OnTriggerStay2D(Collider2D other) //is anything entering my trigger?
+    {
+        if (other.tag == "EmiliaCardello" || 
+            other.tag == "LuccaRomana")
+        {
+            talk = true;
+        }
+
+        currentChar = other.gameObject;
     }
     
     private void OnTriggerEnter2D(Collider2D other) //is anything entering my trigger?
@@ -120,15 +123,21 @@ public class Walking : MonoBehaviour
             talk = true;
         }
         
-        if(talk && Input.GetKeyUp(KeyCode.E))
-        {
-            global.GetComponent<Global>().currentGS = Global.GameState.Selecting;
-            global.GetComponent<Global>().prevGS = Global.GameState.Selecting;
-            rb.constraints = RigidbodyConstraints2D.FreezeAll;
-            global.GetComponent<Global>().currentUIS = Global.UIState.LargeMap;
-            map.GetComponent<MapController>().current_char = other.tag;
-            story.GetComponent<StoryController>().SetKnot(other.tag, "Default_");
-        }
+        currentChar = other.gameObject;
     }
+    
+    
+    private void OnTriggerExit2D(Collider2D other) //is anything entering my trigger?
+    {
+        if (other.tag == "EmiliaCardello" || 
+            other.tag == "LuccaRomana")
+        {
+            talk = false;
+        }
+
+        currentChar = null;
+    }
+    
+    
 }
 

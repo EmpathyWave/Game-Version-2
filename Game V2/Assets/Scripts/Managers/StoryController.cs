@@ -36,7 +36,18 @@ public class StoryController : MonoBehaviour
                 SetKnot(map.GetComponent<MapController>().current_char,"Default_");
             }
         }
+        
+        else
+        {
+            if (story.currentChoices.Count > 0) //any input 
+            {
+                story.ChooseChoiceIndex(0);
+            }
+        }
+        
     }
+    
+    //make a script that checks and deletes the choice symblo
 
     public void SetKnot(string character, string input) //set knot before you continue the story
     {

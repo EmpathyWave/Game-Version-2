@@ -34,14 +34,17 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Managers/PuzzleHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Managers/MapController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Plugins/Ink/Example/Scripts/BasicInkExample.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Plugins/Ink/Example/Scripts/Editor/BasicInkExampleEditor.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CameraFollow.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Controls/Editing.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Managers/StoryController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Plugins/FMOD/src/Editor/EventManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Managers/PuzzleHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Worker Classes/TypingEffect.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Plugins/Ink/Example/Scripts/Editor/BasicInkExampleEditor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Controls/Editing.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Managers/ButtonController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Worker Classes/Fader.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Worker Classes/Intro.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Plugins/Ink/InkRuntime/Story.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Global.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Managers/MenuController.cs" root0="FORCE_HIGHLIGHTING" />
@@ -53,12 +56,16 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Info.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Managers/PuzzleHandler.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CameraFollow.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Global.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/StoryController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Fader.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Intro.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Worker Classes/TypingEffect.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Managers/MenuController.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/MapController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Worker Classes/Fader.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Managers/ButtonController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Global.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Controls/Walking.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/StoryController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Managers/MapController.cs" />
       </list>
     </option>
   </component>
@@ -143,6 +150,18 @@
       <workItem from="1583164123746" duration="7707000" />
       <workItem from="1583349827205" duration="4861000" />
       <workItem from="1585761376031" duration="945000" />
+      <workItem from="1585762965415" duration="1751000" />
+      <workItem from="1586751008173" duration="5696000" />
+      <workItem from="1586796658406" duration="3644000" />
+      <workItem from="1586805345227" duration="9748000" />
+      <workItem from="1586830498861" duration="361000" />
+      <workItem from="1586833242815" duration="1225000" />
+      <workItem from="1586890102945" duration="5127000" />
+      <workItem from="1586906160100" duration="4784000" />
+      <workItem from="1586913633423" duration="3062000" />
+      <workItem from="1586973376224" duration="4423000" />
+      <workItem from="1586985410127" duration="1758000" />
+      <workItem from="1586991262398" duration="3094000" />
     </task>
     <servers />
   </component>

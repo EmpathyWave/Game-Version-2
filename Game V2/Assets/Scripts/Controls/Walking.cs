@@ -94,10 +94,10 @@ public class Walking : MonoBehaviour
         
         if(talk && Input.GetKeyUp(KeyCode.E))
         {
-            global.GetComponent<Global>().currentGS = Global.GameState.Selecting;
-            global.GetComponent<Global>().prevGS = Global.GameState.Selecting;
+            Global.me.currentGS = Global.GameState.Selecting;
+            Global.me.prevGS = Global.GameState.Selecting;
             rb.constraints = RigidbodyConstraints2D.FreezeAll;
-            global.GetComponent<Global>().currentUIS = Global.UIState.LargeMap;
+            Global.me.currentUIS = Global.UIState.LargeMap;
             map.GetComponent<MapController>().current_char = currentChar.tag;
             story.GetComponent<StoryController>().SetKnot(currentChar.tag, "Default_");
         }
@@ -105,8 +105,7 @@ public class Walking : MonoBehaviour
     
     private void OnTriggerStay2D(Collider2D other) //is anything entering my trigger?
     {
-        if (other.tag == "EmiliaCardello" || 
-            other.tag == "LuccaRomana")
+        if (other.tag != "Untagged")
         {
             talk = true;
         }
@@ -116,8 +115,7 @@ public class Walking : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D other) //is anything entering my trigger?
     {
-        if (other.tag == "EmiliaCardello" || 
-            other.tag == "LuccaRomana")
+        if (other.tag != "Untagged")
         {
             
             talk = true;
@@ -129,8 +127,7 @@ public class Walking : MonoBehaviour
     
     private void OnTriggerExit2D(Collider2D other) //is anything entering my trigger?
     {
-        if (other.tag == "EmiliaCardello" || 
-            other.tag == "LuccaRomana")
+        if (other.tag != "Untagged")
         {
             talk = false;
         }

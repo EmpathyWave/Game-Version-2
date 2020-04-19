@@ -65,6 +65,36 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Plugins\EZ Camera Shake\Demo\Sample Scripts\ShakeByDistance.cs" />
+    <Compile Include="Assets\Plugins\EZ Camera Shake\Demo\Sample Scripts\ShakeOnKeyPress.cs" />
+    <Compile Include="Assets\Plugins\EZ Camera Shake\Demo\Sample Scripts\ShakeOnTrigger.cs" />
+    <Compile Include="Assets\Plugins\EZ Camera Shake\Scripts\CameraShakeInstance.cs" />
+    <Compile Include="Assets\Plugins\EZ Camera Shake\Scripts\CameraShakePresets.cs" />
+    <Compile Include="Assets\Plugins\EZ Camera Shake\Scripts\CameraShaker.cs" />
+    <Compile Include="Assets\Plugins\EZ Camera Shake\Scripts\Utilities\CameraUtilities.cs" />
+    <Compile Include="Assets\Plugins\FMOD\addons\ResonanceAudio\Scripts\FmodResonanceAudio.cs" />
+    <Compile Include="Assets\Plugins\FMOD\addons\ResonanceAudio\Scripts\FmodResonanceAudioRoom.cs" />
+    <Compile Include="Assets\Plugins\FMOD\src\Runtime\BankRefAttribute.cs" />
+    <Compile Include="Assets\Plugins\FMOD\src\Runtime\EventHandler.cs" />
+    <Compile Include="Assets\Plugins\FMOD\src\Runtime\EventRefAttribute.cs" />
+    <Compile Include="Assets\Plugins\FMOD\src\Runtime\FMODRuntimeManagerOnGUIHelper.cs" />
+    <Compile Include="Assets\Plugins\FMOD\src\Runtime\ParamRef.cs" />
+    <Compile Include="Assets\Plugins\FMOD\src\Runtime\ParamRefAttribute.cs" />
+    <Compile Include="Assets\Plugins\FMOD\src\Runtime\RuntimeManager.cs" />
+    <Compile Include="Assets\Plugins\FMOD\src\Runtime\RuntimeUtils.cs" />
+    <Compile Include="Assets\Plugins\FMOD\src\Runtime\Settings.cs" />
+    <Compile Include="Assets\Plugins\FMOD\src\Runtime\StudioBankLoader.cs" />
+    <Compile Include="Assets\Plugins\FMOD\src\Runtime\StudioEventEmitter.cs" />
+    <Compile Include="Assets\Plugins\FMOD\src\Runtime\StudioGlobalParameterTrigger.cs" />
+    <Compile Include="Assets\Plugins\FMOD\src\Runtime\StudioListener.cs" />
+    <Compile Include="Assets\Plugins\FMOD\src\Runtime\StudioParameterTrigger.cs" />
+    <Compile Include="Assets\Plugins\FMOD\src\Runtime\Timeline\FMODEventPlayable.cs" />
+    <Compile Include="Assets\Plugins\FMOD\src\Runtime\Timeline\FMODEventTrack.cs" />
+    <Compile Include="Assets\Plugins\FMOD\src\Runtime\wrapper\fmod.cs" />
+    <Compile Include="Assets\Plugins\FMOD\src\Runtime\wrapper\fmod_android.cs" />
+    <Compile Include="Assets\Plugins\FMOD\src\Runtime\wrapper\fmod_dsp.cs" />
+    <Compile Include="Assets\Plugins\FMOD\src\Runtime\wrapper\fmod_errors.cs" />
+    <Compile Include="Assets\Plugins\FMOD\src\Runtime\wrapper\fmod_studio.cs" />
     <Compile Include="Assets\Plugins\Ink\Example\Scripts\BasicInkExample.cs" />
     <Compile Include="Assets\Plugins\Ink\Example\Scripts\QuitGameOnKeypress.cs" />
     <Reference Include="Unity.Timeline.Editor">

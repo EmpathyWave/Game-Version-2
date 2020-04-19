@@ -7,13 +7,12 @@ using UnityEngine.UI;
 
 public class MapController : MonoBehaviour //handles all the UI elements when navigating the map and Timeline and even the story
 {
-
     public GameObject canvas;
     
     [Header("Tabs")] 
     public GameObject mapT;
     public GameObject timeT;
-    public GameObject idT;
+    public GameObject treeT;
 
 
     [Header("Large Map")]
@@ -22,14 +21,12 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
 
     [Header("Timeline")]
     public GameObject tParent; //parent object to Timeline
-    public GameObject[] tInputs; //character
-    public string [] tNames; 
     public Button[] tButtons;
     
     
     [Header("ID")]
-    public GameObject idParent; //parent object to ID
-    public Button[] idButtons;
+    public GameObject treeParent; //parent object to tree
+    public Button[] treeButtons;
    
     
     [Header("Hill")]
@@ -82,18 +79,21 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
         {
             UIActivate();
             VControls();
+            TextUpdate();
         }
         //editing people's names
         else if (Global.me.currentGS == Global.GameState.Editing) 
         {
             UIActivate();
             EControls();
+            TextUpdate();
         }
         //questioning
         else if (Global.me.currentGS == Global.GameState.Selecting)
         {
             UIActivate();
             SControls();
+            TextUpdate();
         }
         else //walking mode
         {
@@ -109,7 +109,7 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
         canvas.SetActive(true);
         mapT.SetActive((true));
         timeT.SetActive((true));
-        idT.SetActive((true));
+        treeT.SetActive((true));
         
         if (Global.me.currentUIS == Global.UIState.LargeMap) //activating large map UI
         {
@@ -119,9 +119,9 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
             for (int i = 0; i < tButtons.Length; i++) {
                 tButtons[i].gameObject.SetActive(false); }
             
-            idParent.SetActive(false);
-            for (int i = 0; i < idButtons.Length; i++) {
-                idButtons[i].gameObject.SetActive(false); }
+            treeParent.SetActive(false);
+            for (int i = 0; i < treeButtons.Length; i++) {
+                treeButtons[i].gameObject.SetActive(false); }
             
             hParent.SetActive(false);
             for (int i = 0; i < hButtons.Length; i++) {
@@ -140,9 +140,9 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
 
             lmParent.SetActive(false);
 
-            idParent.SetActive(false);
-            for (int i = 0; i < idButtons.Length; i++) {
-                idButtons[i].gameObject.SetActive(false); }
+            treeParent.SetActive(false);
+            for (int i = 0; i < treeButtons.Length; i++) {
+                treeButtons[i].gameObject.SetActive(false); }
             
             hParent.SetActive(false);
             for (int i = 0; i < hButtons.Length; i++) {
@@ -150,13 +150,13 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
             
    
         }
-        if (Global.me.currentUIS == Global.UIState.ID) //activating ID UI
+        if (Global.me.currentUIS == Global.UIState.Tree) //activating tree UI
         {
-            idParent.SetActive(true);
+            treeParent.SetActive(true);
             if (Global.me.currentGS == Global.GameState.Selecting)
             {
-                for (int i = 0; i < idButtons.Length; i++) {
-                    idButtons[i].gameObject.SetActive(true); }
+                for (int i = 0; i < treeButtons.Length; i++) {
+                    treeButtons[i].gameObject.SetActive(true); }
             }
             
             lmParent.SetActive(false);
@@ -186,12 +186,13 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
             for (int i = 0; i < tButtons.Length; i++) {
                 tButtons[i].gameObject.SetActive(false); }
             
-            idParent.SetActive(false);
-            for (int i = 0; i < idButtons.Length; i++) {
-                idButtons[i].gameObject.SetActive(false); }
+            treeParent.SetActive(false);
+            for (int i = 0; i < treeButtons.Length; i++) {
+                treeButtons[i].gameObject.SetActive(false); }
             
-            //SM2parent.SetActive(false);
         }
+        
+        //add docks and piazza
         
     }
 
@@ -200,20 +201,21 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
         canvas.SetActive(false);
         mapT.SetActive(false);
         timeT.SetActive(false);
-        idT.SetActive(false);
+        treeT.SetActive(false);
         
         lmParent.SetActive(false);
         tParent.SetActive(false);
-        idParent.SetActive(false);
+        treeParent.SetActive(false);
         hParent.SetActive(false);
-        //SM2parent.SetActive(false);
-        
+
         for (int i = 0; i < tButtons.Length; i++) {
             tButtons[i].gameObject.SetActive(false); }
-        for (int i = 0; i < idButtons.Length; i++) {
-            idButtons[i].gameObject.SetActive(false); }
+        for (int i = 0; i < treeButtons.Length; i++) {
+            treeButtons[i].gameObject.SetActive(false); }
         for (int i = 0; i < hButtons.Length; i++) {
             hButtons[i].gameObject.SetActive(false); }
+        
+        //add docks and piazza
         
         d_box.SetActive(false);
         q_box.SetActive(false);
@@ -225,6 +227,7 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
     {
         if (Input.GetKey(KeyCode.Escape)) // changes into walking 
         {
+            Debug.Log("Fuck");
             Global.me.currentUIS = Global.UIState.Walking; //walkin UI
             Global.me.currentGS = Global.GameState.Walking; //walkin time
         }
@@ -232,15 +235,17 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
 
     void EControls() //switching from editing to whatever the fuck you were doing before
     {
-        Tab();
+        //Tab();
         if (Input.GetKeyDown(KeyCode.Escape)) 
         {
             Global.me.currentGS = Global.me.prevGS; //back to map
         }
+        
     }
 
     void SControls() //selecting controls
     {
+        
         q_box.SetActive(true);
         d_box.SetActive(true);
         NameCheck();
@@ -260,10 +265,10 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
                     tButtons[i].gameObject.GetComponent<Button>().interactable = true; 
                 }
             
-                for (int i = 0; i < idButtons.Length; i++) //resets buttons
+                for (int i = 0; i < treeButtons.Length; i++) //resets buttons
                 {
-                    idButtons[i].gameObject.SetActive(true);
-                    idButtons[i].gameObject.GetComponent<Button>().interactable = true; 
+                    treeButtons[i].gameObject.SetActive(true);
+                    treeButtons[i].gameObject.GetComponent<Button>().interactable = true; 
                 }
             
                 for (int i = 0; i < hButtons.Length; i++) //resets buttons
@@ -295,10 +300,10 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
                 }
             
             
-                for (int i = 0; i < idButtons.Length; i++) //resets buttons
+                for (int i = 0; i < treeButtons.Length; i++) //resets buttons
                 {
-                    idButtons[i].gameObject.GetComponent<Button>().interactable = true; 
-                    idButtons[i].gameObject.SetActive(false);
+                    treeButtons[i].gameObject.GetComponent<Button>().interactable = true; 
+                    treeButtons[i].gameObject.SetActive(false);
                 }
             
             
@@ -315,122 +320,9 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
         }    
     }
 
-    //_______________________________________________________________________________________________________________________________________________BUTTON & INPUT FUNCTIONS
-    //BUTTON & INPUT FUNCTIONS ______________________________________________________________________________________________________________________________________________
-
-    //changing between UI states
-    public void LargeMap()
-    {
-        Global.me.currentUIS = Global.UIState.LargeMap;
-    }
-    public void Timeline()
-    {
-        Global.me.currentUIS = Global.UIState.Timeline;
-    }
-    public void ID()
-    {
-        Global.me.currentUIS = Global.UIState.ID;
-    }
-    public void Hill()
-    {
-        Global.me.currentUIS = Global.UIState.Hill;
-    }
-    public void Docks()
-    {
-        Global.me.currentUIS = Global.UIState.Docks;
-    }
-
-    //linked to button in order to update the textbox
-    public void Ask() 
-    {
-        asked = true;
-    }
 
     
     
-    public void ButtonHandler(Button button) //sends up the button name to the story input
-    {
-        Debug.Log("clicked");
-        if (input_num == 0)
-        {
-            q_box.GetComponentInChildren<Text>().text += button.name;
-            story_input1 = button.name.Replace(" ", String.Empty);
-            button.interactable = false;
-            input_num = 1;
-        } else if (input_num == 1) {
-            q_box.GetComponentInChildren<Text>().text += " & ";
-            q_box.GetComponentInChildren<Text>().text += button.name;
-            story_input2 = button.name.Replace(" ", String.Empty);
-            button.interactable = false;
-            input_num = 2;
-        }
-        
-        if (input_num == 2)
-        {
-            for (int i = 0; i < tButtons.Length; i++) //resets buttons
-            {
-                tButtons[i].gameObject.GetComponent<Button>().interactable = false; 
-                //tButtons[i].gameObject.SetActive(false);
-            }
-            
-            
-            for (int i = 0; i < idButtons.Length; i++) //resets buttons
-            {
-                idButtons[i].gameObject.GetComponent<Button>().interactable = false; 
-                //idButtons[i].gameObject.SetActive(false);
-            }
-            
-            for (int i = 0; i < hButtons.Length; i++) //resets buttons
-            {
-                hButtons[i].gameObject.GetComponent<Button>().interactable = false; 
-                //hButtons[i].gameObject.SetActive(false);
-            }
-        }
-    }
-    
-    public void Tab() // overrides the function of escape normally for input functions
-    {
-        if (Input.GetKey(KeyCode.Tab))
-        {
-            if (Global.me.currentUIS == Global.UIState.Timeline) //timeline
-            {
-                for (int i = 0; i < tInputs.Length; i++)
-                {
-                    tInputs[i].transform.GetChild(0).GetComponent<InputField>().DeactivateInputField();
-                    tNames[i]= tInputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text; //assigns the text that is being inputted to the larger name
-                }
-            }
-            if (Global.me.currentUIS == Global.UIState.Hill) //Hill
-            {
-                for (int i = 0; i < hInputs.Length; i++)
-                {
-                    hInputs[i].transform.GetChild(0).GetComponent<InputField>().DeactivateInputField();
-                    hNames[i]= hInputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text; //assigns the text that is being inputted to the larger name
-                }
-            }
-            
-        }
-    }
-
-    public void Save() // saving the text once the input field is called
-    {
-        if (Global.me.currentUIS == Global.UIState.Timeline) //timeline
-        {
-            for (int i = 0; i < tInputs.Length; i++)
-            {
-                tNames[i] = tInputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
-            }
-        }
-        if (Global.me.currentUIS == Global.UIState.Hill) //Hill
-        {
-            for (int i = 0; i < hInputs.Length; i++)
-            {
-                hNames[i] = hInputs[i].transform.GetChild(0).GetComponentInChildren<InputField>().text;
-            }
-        }
-
-    }
-
     public void End_Editing() //ending editing - switching to previous mode fixes problem of game states
     {
         Global.me.currentGS = Global.me.prevGS; 
@@ -454,57 +346,61 @@ public class MapController : MonoBehaviour //handles all the UI elements when na
 
     //_____________________________________________________________________________________________________________________________________________WORKER FUNCTIONS
     //WORKER FUNCTIONS ____________________________________________________________________________________________________________________________________________
-    void NameCheck() //checking if the names and inputs are correct and displaying the correct info if they are //called whcn acvtivating the UI
+    
+    public void TextUpdate()
     {
-
-        if (Global.me.currentUIS == Global.UIState.Timeline)
-        {
-            for (int i = 0; i < tInputs.Length; i++)
-            {
-                if (tNames[i] == tInputs[i].name)
-                {
-                    //tInputs[i].transform.GetChild(1).GetComponent<Image>().enabled = false; //bw icon disabled
-                    //tInputs[i].transform.GetChild(2).GetComponent<Image>().enabled = true; //color icon enabled
-                } else {
-                    //tInputs[i].transform.GetChild(1).GetComponent<Image>().enabled = true; //bw icon disabled
-                    //tInputs[i].transform.GetChild(2).GetComponent<Image>().enabled = false; //color icon enabled
-                }
-                
-                if (Global.me.currentGS == Global.GameState.Selecting && tNames[i] == tInputs[i].name) //activating buttons
-                {
-                    tInputs[i].transform.GetChild(2).GetComponent<Image>().enabled = true;
-                } else {
-                    tInputs[i].transform.GetChild(2).GetComponent<Image>().enabled = false;
-                }
-            }
-        }
-        
         if (Global.me.currentUIS == Global.UIState.Hill) //Hill
         {
             for (int i = 0; i < hInputs.Length; i++)
             {
-                if (hNames[i] == hInputs[i].name)
+                hNames[i] = hInputs[i].transform.GetChild(2).GetComponent<InputField>().text;
+                hInputs[i].transform.GetChild(2).GetComponent<InputField>().text = hNames[i];
+                hInputs[i].transform.GetChild(3).GetComponent<InputField>().text= hNames[i];
+            }
+        }
+    }
+    
+    
+    
+    void NameCheck() //checking if the names and inputs are correct and displaying the correct info if they are //called whcn acvtivating the UI
+    {
+        if (Global.me.currentUIS == Global.UIState.Hill) //Hill
+        {
+            for (int i = 0; i < hInputs.Length; i++)
+            {
+                if (hNames[i] == hInputs[i].name) //just seeing if the names are right
                 {
-                    hInputs[i].transform.GetChild(1).GetComponent<Image>().enabled = false; //bw icon disabled
-                    hInputs[i].transform.GetChild(2).GetComponent<Image>().enabled = true; //color icon enabled
+                    //0 = incorrect sprite
+                    //1 = correct sprite
+                    //2 = incorrect input
+                    //3 = correct input
+                    //4 = button
+                    
+                    //setting the target graphic
+                    hInputs[i].transform.GetChild(0).gameObject.SetActive(false);
+                    hInputs[i].transform.GetChild(1).gameObject.SetActive(true);
+                    hInputs[i].transform.GetChild(2).gameObject.SetActive(false);
+                    hInputs[i].transform.GetChild(3).gameObject.SetActive(true);
+                    //Global.me.currentGS = Global.GameState.Selecting;
+                    
                 } else {
-                    hInputs[i].transform.GetChild(1).GetComponent<Image>().enabled = true; //bw icon disabled
-                    hInputs[i].transform.GetChild(2).GetComponent<Image>().enabled = false; //color icon enabled
+                    hInputs[i].transform.GetChild(0).gameObject.SetActive(true);
+                    hInputs[i].transform.GetChild(1).gameObject.SetActive(false);
+                    hInputs[i].transform.GetChild(2).gameObject.SetActive(true);
+                    hInputs[i].transform.GetChild(3).gameObject.SetActive(false);
+                    //set interactable or not 
+                    
                 }
 
                 if (Global.me.currentGS == Global.GameState.Selecting && hNames[i] == hInputs[i].name) //activating buttons
                 {
-                    hInputs[i].transform.GetChild(3).GetComponent<Image>().enabled = true;
+                    Debug.Log(hInputs[i].transform.GetChild(4).gameObject.name+ "true");
+                    hInputs[i].transform.GetChild(4).gameObject.SetActive(true);
+                    //Global.me.currentGS = Global.GameState.Selecting;
                 } else {
-                    hInputs[i].transform.GetChild(3).GetComponent<Image>().enabled = false;
+                    Debug.Log(hInputs[i].transform.GetChild(4).gameObject.name + "false");
+                    hInputs[i].transform.GetChild(4).gameObject.SetActive(false);
                 }
-                
-                if (Global.me.currentGS == Global.GameState.Selecting && hNames[i] == "Uncle Lucca")
-                {
-                    hInputs[i].transform.GetChild(4).GetComponent<Image>().enabled = true;
-                } else if (Global.me.currentGS == Global.GameState.Selecting && hNames[i] == "Uncle Lucca"){
-                    hInputs[i].transform.GetChild(4).GetComponent<Image>().enabled = false;
-                } 
                 
             }
         }

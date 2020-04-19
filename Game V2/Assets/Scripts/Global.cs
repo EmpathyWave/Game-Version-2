@@ -11,6 +11,7 @@ public class Global : MonoBehaviour
    //STATE MACHINES
    public enum GameState //Dom State
    {
+      Intro,
       Walking, 
       Viewing, 
       Editing, 
@@ -21,7 +22,7 @@ public class Global : MonoBehaviour
       Walking, //default 
       LargeMap,
       Timeline,
-      ID,
+      Tree,
       Hill,
       Docks,
       Piazza
@@ -29,7 +30,7 @@ public class Global : MonoBehaviour
    
    public enum LocationState 
    {
-      Hill,
+      Hills,
       Docks,
       Piazza
    };
